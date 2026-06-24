@@ -1266,23 +1266,39 @@ updateCartUI();
 </div>
 
 <script>
-// ── YouTube player: desmutear y bajar volumen a 25% al cargar ──
+// ── YouTube player: desmutear al primer clic en cualquier parte ──
 let ytOpen = true;
-let volumeSet = false;
+let ytPlayer = null;
+let unmuteReady = false;
 
-// Usamos YouTube IFrame API para controlar el volumen
 function onYouTubeIframeAPIReady(){
-  const player = new YT.Player('ytEmbed', {
+  ytPlayer = new YT.Player('ytEmbed', {
     events:{
       onReady: function(e){
-        // Desmutear y poner volumen al 25%
-        e.target.unMute();
+        unmuteReady = true;
         e.target.setVolume(25);
-        volumeSet = true;
+        // Si el usuario ya hizo clic antes de que cargara el player, desmutear ya
+        if(firstClickDone) doUnmute();
       }
     }
   });
 }
+
+let firstClickDone = false;
+function doUnmute(){
+  if(ytPlayer && ytPlayer.unMute){
+    ytPlayer.unMute();
+    ytPlayer.setVolume(25);
+  }
+}
+
+// Escucha el primer clic en cualquier parte de la página
+document.addEventListener('click', function(){
+  if(!firstClickDone){
+    firstClickDone = true;
+    doUnmute();
+  }
+});
 
 // Cargar YouTube IFrame API
 (function(){
