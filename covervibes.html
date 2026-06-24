@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CoverVibes – Cuadros Musicales A4</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#0A0A0A;--bg2:#111111;--bg3:#1A1A1A;
+    --violet:#7C3AED;--violet-light:#A78BFA;
+    --pink:#EC4899;--gold:#F59E0B;
+    --white:#FAFAFA;--gray:#6B7280;--gray-light:#9CA3AF;
+    --card-bg:#161616;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:var(--bg2);}
+  ::-webkit-scrollbar-thumb{background:var(--violet);border-radius:3px;}
+
+  /* ── NAV ── */
+  nav{
+    position:fixed;top:0;width:100%;z-index:1000;
+    background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(124,58,237,0.2);
+    padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .nav-logo{
+    font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:0.08em;
+    background:linear-gradient(90deg,var(--violet),var(--pink));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    cursor:pointer;
+  }
+  .nav-center{display:flex;align-items:center;gap:0.25rem;}
+  .nav-tab{
+    background:none;border:none;color:var(--gray-light);font-family:'Inter',sans-serif;
+    font-size:0.82rem;font-weight:500;padding:0.45rem 1rem;border-radius:2rem;cursor:pointer;
+    transition:all 0.2s;white-space:nowrap;
+  }
+  .nav-tab:hover{color:var(--white);background:rgba(255,255,255,0.06);}
+  .nav-tab.active{
+    background:linear-gradient(135deg,var(--violet),var(--pink));
+    color:#fff;box-shadow:0 2px 12px rgba(124,58,237,0.35);
+  }
+  .nav-right{display:flex;align-items:center;gap:0.75rem;}
+  .search-bar{
+    display:flex;align-items:center;gap:0.5rem;
+    background:var(--bg3);border:1px solid rgba(124,58,237,0.3);
+    border-radius:2rem;padding:0.4rem 1rem;transition:all 0.3s;
+  }
+  .search-bar:focus-within{border-color:var(--violet);box-shadow:0 0 0 3px rgba(124,58,237,0.15);}
+  .search-bar input{background:none;border:none;outline:none;color:var(--white);font-family:'Inter',sans-serif;font-size:0.85rem;width:160px;}
+  .search-bar input::placeholder{color:var(--gray);}
+  .search-icon{color:var(--gray);font-size:0.9rem;}
+  .cart-btn{
+    position:relative;background:linear-gradient(135deg,var(--violet),var(--pink));
+    border:none;border-radius:50%;width:42px;height:42px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+    transition:transform 0.2s,box-shadow 0.2s;flex-shrink:0;
+  }
+  .cart-btn:hover{transform:scale(1.1);box-shadow:0 0 20px rgba(236,72,153,0.4);}
+  .cart-count{
+    position:absolute;top:-4px;right:-4px;background:var(--gold);color:#000;
+    border-radius:50%;width:18px;height:18px;font-size:0.65rem;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ── HERO ── */
+  .hero{
+    padding-top:64px;min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at 20% 50%,rgba(124,58,237,0.15) 0%,transparent 60%),
+               radial-gradient(ellipse at 80% 20%,rgba(236,72,153,0.12) 0%,transparent 50%),
+               radial-gradient(ellipse at 60% 80%,rgba(245,158,11,0.08) 0%,transparent 40%);
+  }
+  .vinyl-rings{
+    position:absolute;right:-80px;top:50%;transform:translateY(-50%);
+    width:500px;height:500px;opacity:0.12;
+    animation:spin 20s linear infinite;
+  }
+  @keyframes spin{to{transform:translateY(-50%) rotate(360deg);}}
+  .hero-content{position:relative;z-index:1;text-align:center;max-width:700px;padding:2rem;}
+  .hero-eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:0.2em;
+    color:var(--violet-light);text-transform:uppercase;margin-bottom:1.2rem;
+    display:flex;align-items:center;justify-content:center;gap:0.5rem;
+  }
+  .hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:var(--violet);}
+  .hero-title{
+    font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,10vw,8rem);
+    line-height:0.9;letter-spacing:0.03em;margin-bottom:1rem;
+    background:linear-gradient(135deg,#fff 30%,var(--violet-light) 60%,var(--pink));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .hero-sub{color:var(--gray-light);font-size:1.05rem;line-height:1.6;margin-bottom:2.5rem;max-width:480px;margin-inline:auto;}
+  .hero-pills{display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem;}
+  .pill{font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:0.3rem 0.8rem;border-radius:2rem;border:1px solid;letter-spacing:0.05em;}
+  .pill-v{border-color:var(--violet);color:var(--violet-light);}
+  .pill-p{border-color:var(--pink);color:var(--pink);}
+  .pill-g{border-color:var(--gold);color:var(--gold);}
+  .cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+  .btn-primary{
+    background:linear-gradient(135deg,var(--violet),var(--pink));
+    color:#fff;border:none;padding:0.85rem 2rem;border-radius:2rem;
+    font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;
+    transition:all 0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;
+    box-shadow:0 4px 24px rgba(124,58,237,0.3);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(236,72,153,0.4);}
+  .btn-secondary{
+    background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.2);
+    padding:0.85rem 2rem;border-radius:2rem;font-family:'Inter',sans-serif;
+    font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.3s;
+    text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;
+  }
+  .btn-secondary:hover{border-color:var(--violet);background:rgba(124,58,237,0.1);}
+  .price-info{margin-top:2rem;display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;}
+  .price-badge{background:var(--bg3);border:1px solid rgba(124,58,237,0.2);border-radius:1rem;padding:0.75rem 1.25rem;text-align:center;}
+  .price-badge .amount{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:600;color:var(--gold);}
+  .price-badge .label{font-size:0.72rem;color:var(--gray);margin-top:0.1rem;}
+
+  /* ── VIEWS ── */
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ── GENRE TABS BAR ── */
+  .tabs-section{padding:4rem 2rem 2rem;max-width:1400px;margin:0 auto;}
+  .section-label{
+    font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;
+    color:var(--violet-light);text-transform:uppercase;margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:0.75rem;
+  }
+  .section-label::after{content:'';flex:1;height:1px;background:rgba(124,58,237,0.2);}
+  .tabs-scroll{display:flex;gap:0.5rem;overflow-x:auto;padding-bottom:0.5rem;scrollbar-width:none;}
+  .tabs-scroll::-webkit-scrollbar{display:none;}
+  .tab{
+    white-space:nowrap;padding:0.6rem 1.25rem;border-radius:2rem;
+    font-size:0.85rem;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.08);
+    background:var(--bg3);color:var(--gray-light);transition:all 0.25s;flex-shrink:0;
+  }
+  .tab:hover{border-color:var(--violet);color:var(--white);}
+  .tab.active{background:linear-gradient(135deg,var(--violet),var(--pink));border-color:transparent;color:#fff;box-shadow:0 4px 16px rgba(124,58,237,0.35);}
+
+  /* ── PRODUCTS GRID ── */
+  .products-section{padding:2rem;max-width:1400px;margin:0 auto;}
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;}
+  .section-title{
+    font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.05em;margin-bottom:0.25rem;
+    background:linear-gradient(90deg,var(--white),var(--violet-light));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .section-subtitle{color:var(--gray);font-size:0.85rem;margin-bottom:2rem;}
+
+  /* ── CARD ── */
+  .card{
+    background:var(--card-bg);border-radius:16px;overflow:hidden;
+    border:1px solid rgba(255,255,255,0.05);cursor:pointer;
+    transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.35s ease,border-color 0.25s;
+    position:relative;animation:fadeUp 0.4s ease both;
+  }
+  .card:hover{
+    transform:scale(1.06) translateY(-8px);
+    box-shadow:0 24px 60px rgba(0,0,0,0.6),0 0 30px rgba(124,58,237,0.25),0 0 60px rgba(236,72,153,0.12);
+    border-color:rgba(124,58,237,0.4);z-index:10;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  .card-img-box{width:100%;aspect-ratio:1/1.414;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;transition:filter 0.35s;}
+  .card:hover .card-img-box{filter:brightness(1.1) saturate(1.2);}
+  .card-body{padding:1rem;}
+  .card-genre{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.35rem;}
+  .card-title{font-weight:600;font-size:0.95rem;margin-bottom:0.15rem;line-height:1.3;}
+  .card-artist{color:var(--gray);font-size:0.8rem;margin-bottom:0.75rem;}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;}
+  .card-price{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--gold);}
+  .add-btn{
+    background:linear-gradient(135deg,var(--violet),var(--pink));
+    border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;color:#fff;font-size:1.2rem;
+    display:flex;align-items:center;justify-content:center;transition:transform 0.2s,box-shadow 0.2s;
+  }
+  .add-btn:hover{transform:scale(1.2);box-shadow:0 4px 16px rgba(236,72,153,0.5);}
+  .card-badge{
+    position:absolute;top:10px;left:10px;
+    font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;
+    padding:0.25rem 0.6rem;border-radius:2rem;text-transform:uppercase;font-weight:600;
+  }
+  .badge-new{background:var(--pink);color:#fff;}
+  .badge-hot{background:var(--gold);color:#000;}
+  .card-a4{
+    position:absolute;top:10px;right:10px;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
+    font-family:'JetBrains Mono',monospace;font-size:0.58rem;
+    padding:0.2rem 0.5rem;border-radius:4px;color:var(--gray-light);border:1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── ARTISTS VIEW ── */
+  .artists-view-section{padding:5rem 2rem 2rem;max-width:1400px;margin:0 auto;}
+  .artists-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.25rem;margin-top:1.5rem;}
+  .artist-card{
+    background:var(--card-bg);border-radius:16px;overflow:hidden;
+    border:1px solid rgba(255,255,255,0.05);cursor:pointer;
+    transition:transform 0.3s cubic-bezier(0.34,1.4,0.64,1),box-shadow 0.3s,border-color 0.25s;
+    animation:fadeUp 0.35s ease both;
+  }
+  .artist-card:hover{
+    transform:scale(1.05) translateY(-6px);
+    box-shadow:0 20px 50px rgba(0,0,0,0.5),0 0 25px rgba(124,58,237,0.2);
+    border-color:rgba(124,58,237,0.4);
+  }
+  .artist-card-banner{
+    width:100%;height:110px;display:flex;align-items:center;justify-content:center;
+    font-size:3.5rem;position:relative;overflow:hidden;
+  }
+  .artist-card-banner::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.6));
+  }
+  .artist-card-body{padding:0.9rem;}
+  .artist-card-name{font-weight:700;font-size:0.95rem;margin-bottom:0.2rem;}
+  .artist-card-genre{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;}
+  .artist-card-count{font-size:0.75rem;color:var(--gray);}
+  .artist-card-count span{color:var(--gold);font-weight:600;}
+
+  /* ── GENRE FILTER FOR ARTISTS ── */
+  .artists-genre-bar{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+  .genre-chip{
+    padding:0.4rem 1rem;border-radius:2rem;font-size:0.78rem;font-weight:500;cursor:pointer;
+    border:1px solid rgba(255,255,255,0.08);background:var(--bg3);color:var(--gray-light);
+    transition:all 0.2s;flex-shrink:0;
+  }
+  .genre-chip:hover{border-color:var(--violet);color:var(--white);}
+  .genre-chip.active{background:linear-gradient(135deg,var(--violet),var(--pink));border-color:transparent;color:#fff;}
+
+  /* ── ARTIST MODAL (bottom sheet) ── */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;
+    display:flex;align-items:flex-end;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(6px);
+  }
+  .overlay.open{opacity:1;pointer-events:all;}
+  .artist-modal{
+    background:var(--bg2);border-radius:24px 24px 0 0;width:100%;max-width:960px;
+    max-height:88vh;overflow-y:auto;padding:2rem;
+    transform:translateY(100%);transition:transform 0.4s cubic-bezier(0.34,1.2,0.64,1);
+    border:1px solid rgba(124,58,237,0.2);position:relative;
+  }
+  .overlay.open .artist-modal{transform:translateY(0);}
+  .modal-handle{width:40px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin:0 auto 1.5rem;}
+  .modal-artist-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;}
+  .modal-artist-avatar{
+    width:80px;height:80px;border-radius:50%;border:3px solid var(--violet);background:var(--bg3);
+    display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0;
+  }
+  .modal-artist-name{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:0.05em;}
+  .modal-artist-genre{color:var(--violet-light);font-size:0.85rem;margin-top:0.2rem;}
+  .modal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;}
+  .modal-card{
+    background:var(--bg3);border-radius:12px;overflow:hidden;
+    border:1px solid rgba(255,255,255,0.05);
+    transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),border-color 0.2s;
+  }
+  .modal-card:hover{transform:scale(1.04);border-color:var(--violet);}
+  .modal-album-art{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:2.8rem;flex-direction:column;gap:0.2rem;}
+  .modal-card-body{padding:0.75rem;}
+  .modal-card-title{font-size:0.82rem;font-weight:600;margin-bottom:0.2rem;line-height:1.3;}
+  .modal-card-year{font-size:0.68rem;color:var(--gray);font-family:'JetBrains Mono',monospace;}
+  .modal-add{
+    width:100%;margin-top:0.6rem;background:linear-gradient(135deg,var(--violet),var(--pink));
+    border:none;border-radius:8px;padding:0.5rem;color:#fff;font-size:0.8rem;font-weight:600;
+    cursor:pointer;transition:opacity 0.2s;
+  }
+  .modal-add:hover{opacity:0.85;}
+  .close-modal{
+    position:absolute;top:1.2rem;right:1.2rem;background:var(--bg3);border:none;
+    border-radius:50%;width:36px;height:36px;color:var(--white);cursor:pointer;
+    font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s;
+  }
+  .close-modal:hover{background:rgba(124,58,237,0.3);}
+
+  /* ── CART PANEL ── */
+  .cart-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3000;
+    opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px);
+  }
+  .cart-overlay.open{opacity:1;pointer-events:all;}
+  .cart-panel{
+    position:fixed;right:0;top:0;height:100%;width:min(420px,100%);
+    background:var(--bg2);border-left:1px solid rgba(124,58,237,0.2);
+    transform:translateX(100%);transition:transform 0.4s cubic-bezier(0.34,1.1,0.64,1);
+    z-index:3001;display:flex;flex-direction:column;padding:1.5rem;overflow:hidden;
+  }
+  .cart-overlay.open .cart-panel{transform:translateX(0);}
+  .cart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;}
+  .cart-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:0.05em;}
+  .cart-items{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:1rem;}
+  .cart-item{background:var(--bg3);border-radius:12px;padding:0.75rem;display:flex;gap:0.75rem;align-items:center;border:1px solid rgba(255,255,255,0.04);}
+  .cart-item-img{width:52px;height:52px;border-radius:8px;background:var(--bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+  .cart-item-info{flex:1;}
+  .cart-item-name{font-size:0.85rem;font-weight:600;margin-bottom:0.1rem;}
+  .cart-item-artist{font-size:0.72rem;color:var(--gray);}
+  .cart-item-price{font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--gold);}
+  .cart-item-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:1rem;transition:color 0.2s;padding:0.25rem;}
+  .cart-item-remove:hover{color:var(--pink);}
+  .cart-footer{border-top:1px solid rgba(255,255,255,0.07);padding-top:1.25rem;margin-top:1rem;}
+  .cart-shipping{background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;font-size:0.8rem;color:var(--gray-light);}
+  .cart-shipping strong{color:var(--violet-light);}
+  .cart-total{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+  .cart-total-label{font-size:0.9rem;color:var(--gray);}
+  .cart-total-amount{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:600;color:var(--gold);}
+  .cart-empty{text-align:center;color:var(--gray);padding:3rem 1rem;font-size:0.9rem;}
+  .cart-empty .empty-icon{font-size:3rem;margin-bottom:1rem;display:block;}
+
+  /* ── WHATSAPP ── */
+  .whatsapp-float{
+    position:fixed;bottom:2rem;left:2rem;z-index:900;background:#25D366;border:none;
+    border-radius:50%;width:56px;height:56px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+    box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform 0.3s;animation:pulse-wa 3s infinite;
+  }
+  @keyframes pulse-wa{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.4);}50%{box-shadow:0 4px 30px rgba(37,211,102,0.7),0 0 0 8px rgba(37,211,102,0.1);}}
+  .whatsapp-float:hover{transform:scale(1.1);}
+  .wa-tooltip{
+    position:fixed;bottom:2.2rem;left:5rem;z-index:900;background:#1a1a1a;
+    border:1px solid rgba(37,211,102,0.3);border-radius:10px;padding:0.75rem 1rem;max-width:220px;
+    font-size:0.78rem;color:var(--white);line-height:1.5;opacity:0;pointer-events:none;transition:opacity 0.3s;
+    box-shadow:0 4px 20px rgba(0,0,0,0.4);
+  }
+  .wa-tooltip.show{opacity:1;pointer-events:all;}
+  .wa-tooltip strong{color:#25D366;}
+
+  /* ── TOAST ── */
+  .toast{
+    position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--bg3);
+    border:1px solid rgba(124,58,237,0.4);border-radius:12px;padding:0.85rem 1.25rem;
+    display:flex;align-items:center;gap:0.75rem;font-size:0.85rem;
+    transform:translateY(120%);transition:transform 0.4s cubic-bezier(0.34,1.3,0.64,1);
+    box-shadow:0 8px 30px rgba(0,0,0,0.4);max-width:300px;
+  }
+  .toast.show{transform:translateY(0);}
+  .toast-icon{font-size:1.2rem;}
+  .toast strong{color:var(--violet-light);}
+
+  /* ── SHIPPING ── */
+  .shipping-section{padding:4rem 2rem;max-width:1400px;margin:0 auto;}
+  .shipping-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+  .shipping-card{background:var(--bg3);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:1.5rem;position:relative;overflow:hidden;}
+  .shipping-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+  .shipping-card.local::before{background:linear-gradient(90deg,var(--violet),var(--pink));}
+  .shipping-card.national::before{background:linear-gradient(90deg,var(--gold),#FF6B6B);}
+  .shipping-card .s-icon{font-size:2rem;margin-bottom:1rem;}
+  .shipping-card h3{font-weight:700;font-size:1.05rem;margin-bottom:0.5rem;}
+  .shipping-card p{color:var(--gray-light);font-size:0.85rem;line-height:1.6;}
+  .shipping-card .s-price{font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--gold);margin-top:0.75rem;}
+
+  /* ── NO RESULTS ── */
+  .no-results{text-align:center;padding:4rem 1rem;color:var(--gray);grid-column:1/-1;}
+  .no-results .nr-icon{font-size:3rem;margin-bottom:1rem;display:block;}
+
+  /* ── ARTIST POPUP ON HOVER ── */
+  .card-popup{
+    position:fixed;z-index:500;pointer-events:none;
+    background:var(--bg2);border:1px solid rgba(124,58,237,0.5);
+    border-radius:16px;padding:1rem;width:200px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.7),0 0 30px rgba(124,58,237,0.2);
+    opacity:0;transform:scale(0.88) translateY(8px);
+    transition:opacity 0.22s ease,transform 0.22s cubic-bezier(0.34,1.4,0.64,1);
+    text-align:center;
+  }
+  .card-popup.visible{opacity:1;transform:scale(1) translateY(0);}
+  .card-popup-photo{
+    width:90px;height:90px;border-radius:50%;object-fit:cover;
+    border:3px solid var(--violet);margin:0 auto 0.6rem;display:block;
+    background:var(--bg3);font-size:2rem;line-height:90px;text-align:center;
+  }
+  .card-popup-name{font-weight:700;font-size:0.9rem;margin-bottom:0.2rem;}
+  .card-popup-genre{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.5rem;}
+  .card-popup-album{font-size:0.75rem;color:var(--gray-light);line-height:1.4;}
+  .card-popup-tap{font-size:0.65rem;color:var(--violet-light);margin-top:0.4rem;font-family:'JetBrains Mono',monospace;}
+
+  /* ── MUSIC PLAYER ── */
+  .music-player{
+    position:fixed;bottom:2rem;right:2rem;z-index:800;
+    display:flex;align-items:center;gap:0.6rem;
+    background:rgba(15,15,15,0.92);backdrop-filter:blur(16px);
+    border:1px solid rgba(124,58,237,0.35);border-radius:3rem;
+    padding:0.5rem 0.9rem 0.5rem 0.6rem;
+    box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(124,58,237,0.12);
+    transition:all 0.3s;
+  }
+  .music-player:hover{border-color:rgba(124,58,237,0.6);box-shadow:0 8px 32px rgba(0,0,0,0.6),0 0 28px rgba(124,58,237,0.2);}
+  .music-play-btn{
+    background:linear-gradient(135deg,var(--violet),var(--pink));
+    border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;font-size:0.9rem;
+    transition:transform 0.2s;flex-shrink:0;
+  }
+  .music-play-btn:hover{transform:scale(1.1);}
+  .music-info{display:flex;flex-direction:column;gap:0.05rem;min-width:0;}
+  .music-title{
+    font-size:0.68rem;font-weight:600;color:var(--white);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px;
+  }
+  .music-sub{font-size:0.58rem;color:var(--violet-light);font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;}
+  .music-bars{display:flex;align-items:flex-end;gap:2px;height:16px;margin-left:0.2rem;}
+  .music-bars span{
+    display:block;width:3px;background:var(--pink);border-radius:2px;
+    animation:bar-bounce 0.8s ease-in-out infinite;
+  }
+  .music-bars span:nth-child(1){height:6px;animation-delay:0s;}
+  .music-bars span:nth-child(2){height:12px;animation-delay:0.15s;}
+  .music-bars span:nth-child(3){height:8px;animation-delay:0.3s;}
+  .music-bars span:nth-child(4){height:14px;animation-delay:0.1s;}
+  .music-bars span:nth-child(5){height:5px;animation-delay:0.25s;}
+  @keyframes bar-bounce{0%,100%{transform:scaleY(0.4);}50%{transform:scaleY(1);}}
+  .music-bars.paused span{animation-play-state:paused;transform:scaleY(0.3);}
+  .music-vol{
+    -webkit-appearance:none;appearance:none;width:55px;height:3px;
+    background:rgba(255,255,255,0.15);border-radius:2px;outline:none;cursor:pointer;
+    accent-color:var(--violet);
+  }
+  .music-vol::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;background:var(--violet-light);border-radius:50%;}
+  #ytPlayer{position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;pointer-events:none;opacity:0;}
+
+  /* ── FOOTER ── */
+  footer{border-top:1px solid rgba(255,255,255,0.05);padding:2rem;text-align:center;color:var(--gray);font-size:0.8rem;}
+  footer .f-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;background:linear-gradient(90deg,var(--violet),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.5rem;}
+
+  @media(max-width:768px){
+    nav{padding:0 0.75rem;gap:0.5rem;}
+    .nav-center{display:none;}
+    .search-bar{padding:0.35rem 0.75rem;}
+    .search-bar input{width:90px;font-size:0.78rem;}
+    .cart-btn{width:36px;height:36px;font-size:0.95rem;}
+    .hero-title{font-size:3rem;}
+    .hero-sub{font-size:0.9rem;}
+    .hero-pills{gap:0.4rem;}
+    .pill{font-size:0.62rem;padding:0.25rem 0.6rem;}
+    .cta-row{flex-direction:column;align-items:center;}
+    .btn-primary,.btn-secondary{width:100%;max-width:280px;justify-content:center;}
+    .price-info{gap:0.75rem;}
+    .price-badge{padding:0.5rem 0.9rem;}
+    .products-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem;}
+    .products-section{padding:1rem;}
+    .tabs-section{padding:5rem 1rem 1rem;}
+    .tabs-scroll{gap:0.35rem;}
+    .tab{font-size:0.75rem;padding:0.5rem 0.9rem;}
+    .modal-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem;}
+    .artists-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem;}
+    .artists-view-section{padding:5rem 1rem 1rem;}
+    .artist-modal{padding:1.25rem;}
+    .modal-artist-name{font-size:1.8rem;}
+    .shipping-grid{grid-template-columns:1fr;}
+    .shipping-section{padding:2rem 1rem;}
+    .card-popup{display:none;}
+    #ytMusicPlayer{width:calc(100vw - 2rem) !important;right:1rem;bottom:1rem;}
+    .whatsapp-float{bottom:1rem;left:1rem;width:48px;height:48px;font-size:1.2rem;}
+    .wa-tooltip{left:4rem;bottom:1.2rem;max-width:180px;font-size:0.72rem;}
+    .section-title{font-size:1.8rem;}
+    .hero-content{padding:1rem;}
+    .cart-panel{width:100%;}
+    .modal-artist-header{gap:1rem;}
+    .modal-artist-avatar{width:60px;height:60px;}
+  }
+  @media(max-width:380px){
+    .products-grid{grid-template-columns:repeat(2,1fr);gap:0.5rem;}
+    .hero-title{font-size:2.5rem;}
+    .search-bar{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo" onclick="goHome()">CoverVibes</div>
+  <div class="nav-center">
+    <button class="nav-tab active" id="navHome" onclick="switchView('home')">🏠 Inicio</button>
+    <button class="nav-tab" id="navShop" onclick="switchView('shop')">🎨 Cuadros</button>
+    <button class="nav-tab" id="navArtists" onclick="switchView('artists')">🎤 Artistas</button>
+  </div>
+  <div class="nav-right">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Buscar artista..." autocomplete="off"/>
+    </div>
+    <button class="cart-btn" onclick="toggleCart()" aria-label="Carrito">
+      🛒<span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ VIEW: HOME ═══════════════════════════════ -->
+<div id="viewHome" class="view active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <svg class="vinyl-rings" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="195" stroke="white" stroke-width="1"/>
+      <circle cx="200" cy="200" r="165" stroke="white" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="135" stroke="white" stroke-width="1"/>
+      <circle cx="200" cy="200" r="105" stroke="white" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="75" stroke="white" stroke-width="1"/>
+      <circle cx="200" cy="200" r="45" stroke="white" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="20" stroke="white" stroke-width="2"/>
+      <circle cx="200" cy="200" r="7" fill="white" opacity="0.5"/>
+    </svg>
+    <div class="hero-content">
+      <div class="hero-eyebrow">🎵 cuadros A4 premium</div>
+      <div class="hero-title">COVER<br>VIBES</div>
+      <p class="hero-sub">Tu música favorita convertida en arte. Cuadros A4 de alta calidad con portadas icónicas de tus artistas y géneros preferidos.</p>
+      <div class="hero-pills">
+        <span class="pill pill-p">🔥 Reggaeton</span>
+        <span class="pill pill-g">🌟 Pop Latino</span>
+        <span class="pill pill-v">🎸 Rock / Alt</span>
+        <span class="pill pill-p">🇰🇷 K-Pop</span>
+        <span class="pill pill-v">💿 Electrónica</span>
+        <span class="pill pill-g">🤠 Regional Mexicano</span>
+        <span class="pill pill-p">🎶 Pop / R&amp;B</span>
+        <span class="pill pill-v">🐍 Trap Latino</span>
+        <span class="pill pill-g">🎤 Rap US/UK</span>
+      </div>
+      <div class="cta-row">
+        <button class="btn-primary" onclick="switchView('shop')">🎨 Ver todos los cuadros</button>
+        <button class="btn-secondary" onclick="showWaTooltip()">💬 Tamaño personalizado</button>
+      </div>
+      <div class="price-info">
+        <div class="price-badge"><div class="amount">$5</div><div class="label">🏘️ Durán</div></div>
+        <div class="price-badge"><div class="amount">$6</div><div class="label">🌆 Guayaquil</div></div>
+        <div class="price-badge"><div class="amount">Variable</div><div class="label">🚚 Otras ciudades</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED 15 -->
+  <div class="products-section">
+    <div class="section-label">lo más popular</div>
+    <div class="section-title">Álbumes Destacados</div>
+    <div class="section-subtitle">Los 15 cuadros más buscados · Formato A4 · Papel fotográfico premium</div>
+    <div class="products-grid" id="featuredGrid"></div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <button class="btn-primary" onclick="switchView('shop')">Ver todos los cuadros →</button>
+    </div>
+  </div>
+
+  <!-- SHIPPING -->
+  <section class="shipping-section">
+    <div class="section-label">información de envío</div>
+    <div class="section-title">¿Cuánto cuesta el envío?</div>
+    <div class="section-subtitle">Precios según tu ubicación · Cuadro A4 · $5 el cuadro</div>
+    <div class="shipping-grid">
+      <div class="shipping-card local">
+        <div class="s-icon">🏘️</div>
+        <h3>Durán</h3>
+        <p>Entrega directa dentro de Durán. Rápida y segura, tu cuadro llega en perfectas condiciones.</p>
+        <div class="s-price">$5 envío</div>
+      </div>
+      <div class="shipping-card national">
+        <div class="s-icon">🌆</div>
+        <h3>Guayaquil</h3>
+        <p>Entrega a domicilio en Guayaquil. Coordinamos día y hora de entrega contigo por WhatsApp.</p>
+        <div class="s-price">$6 envío</div>
+      </div>
+      <div class="shipping-card local">
+        <div class="s-icon">🚚</div>
+        <h3>Otras ciudades / Provincias</h3>
+        <p>El precio varía según tu ciudad y empresa de transporte. Escríbenos por WhatsApp y te cotizamos al instante.</p>
+        <div class="s-price" style="color:var(--gold)">Precio variable</div>
+      </div>
+      <div class="shipping-card local">
+        <div class="s-icon">💬</div>
+        <h3>¿Tamaño especial?</h3>
+        <p>Si necesitas un tamaño diferente al A4 o tienes una solicitud especial, escríbenos por WhatsApp y te ayudamos.</p>
+        <div class="s-price" style="color:var(--violet-light)">WhatsApp directo</div>
+      </div>
+    </div>
+  </section>
+  <footer><div class="f-logo">CoverVibes</div><p>Cuadros musicales A4 · Arte que suena · © 2025</p></footer>
+</div>
+
+<!-- ═══════════════════════════════ VIEW: SHOP ═══════════════════════════════ -->
+<div id="viewShop" class="view">
+  <div class="tabs-section">
+    <div class="section-label">explorar por género</div>
+    <div class="tabs-scroll" id="tabsContainer"></div>
+  </div>
+  <div class="products-section">
+    <div class="section-title" id="sectionTitle">Todos los cuadros</div>
+    <div class="section-subtitle" id="sectionSubtitle">Cuadros A4 · Papel fotográfico premium · Colores vibrantes</div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+  <footer><div class="f-logo">CoverVibes</div><p>Cuadros musicales A4 · Arte que suena · © 2025</p></footer>
+</div>
+
+<!-- ═══════════════════════════════ VIEW: ARTISTS ═══════════════════════════════ -->
+<div id="viewArtists" class="view">
+  <div class="artists-view-section">
+    <div class="section-label">directorio de artistas</div>
+    <div class="section-title">Artistas</div>
+    <div class="section-subtitle">Selecciona un artista para ver todos sus álbumes disponibles</div>
+    <div class="artists-genre-bar" id="artistsGenreBar"></div>
+    <div class="artists-grid" id="artistsGrid"></div>
+  </div>
+  <footer><div class="f-logo">CoverVibes</div><p>Cuadros musicales A4 · Arte que suena · © 2025</p></footer>
+</div>
+
+<!-- ── ARTIST MODAL ── -->
+<div class="overlay" id="artistOverlay" onclick="closeArtistModal(event)">
+  <div class="artist-modal" id="artistModal">
+    <div class="modal-handle"></div>
+    <button class="close-modal" onclick="closeModal()">✕</button>
+    <div class="modal-artist-header">
+      <div class="modal-artist-avatar" id="modalAvatar"></div>
+      <div>
+        <div class="modal-artist-name" id="modalArtistName"></div>
+        <div class="modal-artist-genre" id="modalArtistGenre"></div>
+      </div>
+    </div>
+    <div class="section-label">álbumes disponibles</div>
+    <div class="modal-grid" id="modalGrid"></div>
+  </div>
+</div>
+
+<!-- ── CART PANEL ── -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCartOutside(event)">
+  <div class="cart-panel">
+    <div class="cart-header">
+      <span class="cart-title">🛒 Tu Carrito</span>
+      <button class="close-modal" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty"><span class="empty-icon">🎵</span>Tu carrito está vacío.<br>Agrega tus cuadros favoritos.</div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-shipping">
+        <strong>🏘️ Durán:</strong> $5.00 envío<br>
+        <strong>🌆 Guayaquil:</strong> $6.00 envío<br>
+        <strong>🚚 Otras ciudades:</strong> Consultar por <a onclick="openWhatsApp()" style="color:#25D366;cursor:pointer;text-decoration:underline;">WhatsApp</a>
+      </div>
+      <div class="cart-total">
+        <span class="cart-total-label">Total cuadros</span>
+        <span class="cart-total-amount" id="cartTotal">$0</span>
+      </div>
+      <button class="btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem;" onclick="checkoutWhatsApp()">💬 Pedir por WhatsApp</button>
+      <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="toggleCart()">← Seguir comprando</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── WHATSAPP ── -->
+<button class="whatsapp-float" onclick="openWhatsApp()" title="Escríbenos por WhatsApp">💬</button>
+<div class="wa-tooltip" id="waTooltip"><strong>¿Necesitas otro tamaño?</strong><br>Escríbenos por WhatsApp y te hacemos tu cuadro a medida 🎨</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <span class="toast-icon">✅</span>
+  <span id="toastMsg"><strong>Cuadro agregado</strong> al carrito</span>
+</div>
+
+<!-- ── ARTIST POPUP ── -->
+<div class="card-popup" id="artistPopup">
+  <img class="card-popup-photo" id="popupPhoto" src="" alt="" onerror="this.style.display='none';document.getElementById('popupEmoji').style.display='block'"/>
+  <div id="popupEmoji" style="display:none;font-size:2.5rem;margin-bottom:0.4rem;"></div>
+  <div class="card-popup-name" id="popupName"></div>
+  <div class="card-popup-genre" id="popupGenre"></div>
+  <div class="card-popup-album" id="popupAlbum"></div>
+  <div class="card-popup-tap">👆 Clic para ver álbumes</div>
+</div>
+
+<script>
+// ─── DATA ───
+const WHATSAPP_NUMBER = '593968619836';
+
+const genres = [
+  {id:'all',        label:'🎵 Todos'},
+  {id:'reggaeton',  label:'🔥 Reggaeton'},
+  {id:'poplatino',  label:'🌟 Pop Latino'},
+  {id:'rock',       label:'🎸 Rock / Alternativo'},
+  {id:'kpop',       label:'🇰🇷 K-Pop'},
+  {id:'electronica',label:'💿 Electrónica'},
+  {id:'regional',   label:'🤠 Regional Mexicano'},
+  {id:'poprnb',     label:'🎶 Pop / R&B'},
+  {id:'traplatino', label:'🐍 Trap / Rap Latino'},
+  {id:'rapusuk',    label:'🎤 Rap US/UK'},
+];
+
+const artists = [
+  {id:1,name:'Bad Bunny',genre:'reggaeton',emoji:'🐰',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Bad_Bunny_2019_Latin_Grammy_Awards_%28cropped%29.jpg/480px-Bad_Bunny_2019_Latin_Grammy_Awards_%28cropped%29.jpg',albums:[
+    {id:101,title:'Un Verano Sin Ti',year:2022,emoji:'☀️',price:19,hot:true},
+    {id:102,title:'El Último Tour del Mundo',year:2020,emoji:'🌍',price:18},
+    {id:103,title:'YHLQMDLG',year:2020,emoji:'🐰',price:18,new:true},
+    {id:104,title:'X 100PRE',year:2018,emoji:'💥',price:17},
+  ]},
+  {id:2,name:'J Balvin',genre:'reggaeton',emoji:'🌈',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/J_Balvin_2018.jpg/480px-J_Balvin_2018.jpg',albums:[
+    {id:201,title:'Colores',year:2020,emoji:'🌈',price:18,hot:true},
+    {id:202,title:'Vibras',year:2018,emoji:'⚡',price:17},
+    {id:203,title:'Energía',year:2016,emoji:'🔥',price:17},
+  ]},
+  {id:3,name:'Daddy Yankee',genre:'reggaeton',emoji:'👑',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Daddy_Yankee_2019_cropped.jpg/480px-Daddy_Yankee_2019_cropped.jpg',albums:[
+    {id:301,title:'Barrio Fino',year:2004,emoji:'👑',price:18,hot:true},
+    {id:302,title:'El Cartel: The Big Boss',year:2007,emoji:'🔊',price:17},
+    {id:303,title:'Legendaddy',year:2022,emoji:'🏆',price:19,new:true},
+  ]},
+  {id:4,name:'Ozuna',genre:'reggaeton',emoji:'🌙',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Ozuna_2018.jpg/480px-Ozuna_2018.jpg',albums:[
+    {id:401,title:'Odisea',year:2017,emoji:'🌙',price:17},
+    {id:402,title:'Aura',year:2018,emoji:'✨',price:17},
+    {id:403,title:'El Malo',year:2016,emoji:'😈',price:16},
+  ]},
+  {id:5,name:'Rauw Alejandro',genre:'reggaeton',emoji:'🚀',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Rauw_Alejandro_2022.jpg/480px-Rauw_Alejandro_2022.jpg',albums:[
+    {id:501,title:'Vice Versa',year:2021,emoji:'🔄',price:18,new:true},
+    {id:502,title:'Saturno',year:2023,emoji:'🪐',price:19,hot:true},
+    {id:503,title:'Afrodisíaco',year:2020,emoji:'🌴',price:17},
+  ]},
+  {id:6,name:'Shakira',genre:'poplatino',emoji:'💃',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Shakira_-_2010.jpg/480px-Shakira_-_2010.jpg',albums:[
+    {id:601,title:'Laundry Service',year:2001,emoji:'💃',price:18,hot:true},
+    {id:602,title:'She Wolf',year:2009,emoji:'🐺',price:17},
+    {id:603,title:'Las de la Intuición',year:2005,emoji:'🌸',price:17},
+    {id:604,title:'Las Mujeres Ya No Lloran',year:2024,emoji:'💎',price:19,new:true},
+  ]},
+  {id:7,name:'Maluma',genre:'poplatino',emoji:'🦋',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Maluma_2018_%28cropped%29.jpg/480px-Maluma_2018_%28cropped%29.jpg',albums:[
+    {id:701,title:'F.A.M.E.',year:2018,emoji:'⭐',price:17},
+    {id:702,title:'11:11',year:2019,emoji:'🕐',price:18,hot:true},
+    {id:703,title:'Papi Juancho',year:2020,emoji:'🦋',price:17},
+  ]},
+  {id:8,name:'Kali Uchis',genre:'poplatino',emoji:'🌺',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Kali_Uchis_2017.jpg/480px-Kali_Uchis_2017.jpg',albums:[
+    {id:801,title:'Isolation',year:2018,emoji:'🌺',price:18},
+    {id:802,title:'Sin Miedo',year:2020,emoji:'🌹',price:18,new:true},
+    {id:803,title:'Orquídeas',year:2024,emoji:'💜',price:19,hot:true},
+  ]},
+  {id:9,name:'Karol G',genre:'poplatino',emoji:'🐱',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Karol_G_in_2022.jpg/480px-Karol_G_in_2022.jpg',albums:[
+    {id:901,title:'Ocean',year:2019,emoji:'🌊',price:17},
+    {id:902,title:'KG0516',year:2021,emoji:'🐱',price:18},
+    {id:903,title:'Mañana Será Bonito',year:2023,emoji:'🌸',price:19,hot:true},
+  ]},
+  {id:10,name:'Nirvana',genre:'rock',emoji:'🌀',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/NirvanaO2AcademyBrixton.jpg/480px-NirvanaO2AcademyBrixton.jpg',albums:[
+    {id:1001,title:'Nevermind',year:1991,emoji:'🌀',price:19,hot:true},
+    {id:1002,title:'In Utero',year:1993,emoji:'🎸',price:18},
+    {id:1003,title:'Bleach',year:1989,emoji:'🔊',price:17},
+  ]},
+  {id:11,name:'Arctic Monkeys',genre:'rock',emoji:'🐒',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Arctic_Monkeys_performing_at_iTunes_Festival_2013_%28cropped%29.jpg/480px-Arctic_Monkeys_performing_at_iTunes_Festival_2013_%28cropped%29.jpg',albums:[
+    {id:1101,title:'AM',year:2013,emoji:'🌙',price:19,hot:true},
+    {id:1102,title:'Whatever People Say I Am',year:2006,emoji:'🚬',price:18},
+    {id:1103,title:'Tranquility Base Hotel',year:2018,emoji:'🚀',price:18},
+    {id:1104,title:'The Car',year:2022,emoji:'🚗',price:18,new:true},
+  ]},
+  {id:12,name:'Foo Fighters',genre:'rock',emoji:'🦅',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Foo_Fighters_-_Rock_in_Rio_2019_%28cropped%29.jpg/480px-Foo_Fighters_-_Rock_in_Rio_2019_%28cropped%29.jpg',albums:[
+    {id:1201,title:'The Colour and the Shape',year:1997,emoji:'🎨',price:18},
+    {id:1202,title:'There Is Nothing Left to Lose',year:1999,emoji:'🦅',price:17},
+    {id:1203,title:'Wasting Light',year:2011,emoji:'💡',price:18,hot:true},
+  ]},
+  {id:13,name:'Radiohead',genre:'rock',emoji:'👁️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Radiohead_in_Buenos_Aires_2018_%28cropped%29.jpg/480px-Radiohead_in_Buenos_Aires_2018_%28cropped%29.jpg',albums:[
+    {id:1301,title:'OK Computer',year:1997,emoji:'💻',price:19,hot:true},
+    {id:1302,title:'Kid A',year:2000,emoji:'👁️',price:19},
+    {id:1303,title:'The Bends',year:1995,emoji:'🌊',price:18},
+  ]},
+  {id:14,name:'BTS',genre:'kpop',emoji:'💜',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/BTS_at_the_2019_Billboard_Music_Awards_%28cropped%29.jpg/480px-BTS_at_the_2019_Billboard_Music_Awards_%28cropped%29.jpg',albums:[
+    {id:1401,title:'Map of the Soul: 7',year:2020,emoji:'🗺️',price:19,hot:true},
+    {id:1402,title:'Love Yourself: Answer',year:2018,emoji:'💜',price:19},
+    {id:1403,title:'BE',year:2020,emoji:'🌙',price:18},
+    {id:1404,title:'Butter',year:2021,emoji:'🧈',price:18,new:true},
+  ]},
+  {id:15,name:'BLACKPINK',genre:'kpop',emoji:'🖤',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Blackpink_at_the_2019_MTV_VMAs_4_%28cropped%29.jpg/480px-Blackpink_at_the_2019_MTV_VMAs_4_%28cropped%29.jpg',albums:[
+    {id:1501,title:'BORN PINK',year:2022,emoji:'🖤',price:19,hot:true},
+    {id:1502,title:'THE ALBUM',year:2020,emoji:'💗',price:18},
+    {id:1503,title:'SQUARE UP',year:2018,emoji:'⬆️',price:17},
+  ]},
+  {id:16,name:'Stray Kids',genre:'kpop',emoji:'🐺',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Stray_Kids_at_KCON_2022_LA_%28cropped%29.jpg/480px-Stray_Kids_at_KCON_2022_LA_%28cropped%29.jpg',albums:[
+    {id:1601,title:'MAXIDENT',year:2022,emoji:'🔐',price:18,new:true},
+    {id:1602,title:'Oddinary',year:2022,emoji:'🌀',price:18},
+    {id:1603,title:'5-STAR',year:2023,emoji:'⭐',price:19,hot:true},
+  ]},
+  {id:17,name:'aespa',genre:'kpop',emoji:'🤖',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Aespa_at_the_2022_MTV_VMAs_%28cropped%29.jpg/480px-Aespa_at_the_2022_MTV_VMAs_%28cropped%29.jpg',albums:[
+    {id:1701,title:'My World',year:2023,emoji:'🌐',price:18,hot:true},
+    {id:1702,title:'Girls',year:2022,emoji:'💫',price:17},
+    {id:1703,title:'Drama',year:2023,emoji:'🎭',price:18,new:true},
+  ]},
+  {id:18,name:'Daft Punk',genre:'electronica',emoji:'🤖',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Daft_Punk_-_NRJ_Music_Awards_2014.jpg/480px-Daft_Punk_-_NRJ_Music_Awards_2014.jpg',albums:[
+    {id:1801,title:'Random Access Memories',year:2013,emoji:'💿',price:20,hot:true},
+    {id:1802,title:'Discovery',year:2001,emoji:'🤖',price:19},
+    {id:1803,title:'Homework',year:1997,emoji:'⚡',price:18},
+  ]},
+  {id:19,name:'Calvin Harris',genre:'electronica',emoji:'🎛️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Calvin_Harris_2019_%28cropped%29.jpg/480px-Calvin_Harris_2019_%28cropped%29.jpg',albums:[
+    {id:1901,title:'Motion',year:2014,emoji:'🎛️',price:17},
+    {id:1902,title:'Funk Wav Bounces Vol. 1',year:2017,emoji:'🌊',price:18,hot:true},
+    {id:1903,title:'Funk Wav Bounces Vol. 2',year:2022,emoji:'🎆',price:18,new:true},
+  ]},
+  {id:20,name:'The Weeknd',genre:'electronica',emoji:'🌃',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/The_Weeknd_-_Openair_Frauenfeld_2018_%28cropped%29.jpg/480px-The_Weeknd_-_Openair_Frauenfeld_2018_%28cropped%29.jpg',albums:[
+    {id:2001,title:'After Hours',year:2020,emoji:'🩸',price:19,hot:true},
+    {id:2002,title:'Starboy',year:2016,emoji:'⭐',price:18},
+    {id:2003,title:'Dawn FM',year:2022,emoji:'📻',price:19,new:true},
+  ]},
+  {id:21,name:'Martin Garrix',genre:'electronica',emoji:'🦁',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Martin_Garrix_Tomorrowland_2019_%28cropped%29.jpg/480px-Martin_Garrix_Tomorrowland_2019_%28cropped%29.jpg',albums:[
+    {id:2101,title:'7',year:2019,emoji:'7️⃣',price:17},
+    {id:2102,title:'Sentio',year:2022,emoji:'🦁',price:18,hot:true},
+  ]},
+  {id:22,name:'Peso Pluma',genre:'regional',emoji:'🪶',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Peso_Pluma_2023_%28cropped%29.jpg/480px-Peso_Pluma_2023_%28cropped%29.jpg',albums:[
+    {id:2201,title:'Hassan',year:2023,emoji:'🪶',price:19,hot:true},
+    {id:2202,title:'Génesis',year:2023,emoji:'🌅',price:19,new:true},
+    {id:2203,title:'Ah Y Qué?',year:2022,emoji:'🎸',price:17},
+  ]},
+  {id:23,name:'Natanael Cano',genre:'regional',emoji:'🎻',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Natanael_Cano_2022_%28cropped%29.jpg/480px-Natanael_Cano_2022_%28cropped%29.jpg',albums:[
+    {id:2301,title:'Trap Tumbado',year:2020,emoji:'🎻',price:17},
+    {id:2302,title:'El de la Noria',year:2021,emoji:'🌵',price:17},
+    {id:2303,title:'Corridos Tumbados Vol. 1',year:2022,emoji:'🔥',price:18,hot:true},
+  ]},
+  {id:24,name:'Grupo Frontera',genre:'regional',emoji:'🌵',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Grupo_Frontera_2023_%28cropped%29.jpg/480px-Grupo_Frontera_2023_%28cropped%29.jpg',albums:[
+    {id:2401,title:'Jugaste y Sufrí',year:2023,emoji:'🤠',price:17,hot:true},
+    {id:2402,title:'El Comienzo',year:2022,emoji:'🌵',price:16,new:true},
+  ]},
+  {id:25,name:'Eslabón Armado',genre:'regional',emoji:'⛓️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Eslabón_Armado_2023_%28cropped%29.jpg/480px-Eslabón_Armado_2023_%28cropped%29.jpg',albums:[
+    {id:2501,title:'Tu Veneno Mortal',year:2022,emoji:'☠️',price:17,hot:true},
+    {id:2502,title:'Nostalgia',year:2021,emoji:'🌙',price:16},
+    {id:2503,title:'El Futuro Ex',year:2023,emoji:'💔',price:17,new:true},
+  ]},
+  {id:26,name:'Beyoncé',genre:'poprnb',emoji:'👑',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Beyonc%C3%A9_at_The_Formation_World_Tour%2C_cropped.jpg/480px-Beyonc%C3%A9_at_The_Formation_World_Tour%2C_cropped.jpg',albums:[
+    {id:2601,title:'Lemonade',year:2016,emoji:'🍋',price:19,hot:true},
+    {id:2602,title:'Renaissance',year:2022,emoji:'💫',price:20,new:true},
+    {id:2603,title:'Dangerously in Love',year:2003,emoji:'❤️',price:17},
+    {id:2604,title:'Cowboy Carter',year:2024,emoji:'🤠',price:19,hot:true},
+  ]},
+  {id:27,name:'Ariana Grande',genre:'poprnb',emoji:'🍩',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Ariana_Grande_2019_by_Glenn_Francis_%28cropped%29.jpg/480px-Ariana_Grande_2019_by_Glenn_Francis_%28cropped%29.jpg',albums:[
+    {id:2701,title:'Thank U, Next',year:2019,emoji:'💅',price:18,hot:true},
+    {id:2702,title:'Positions',year:2020,emoji:'🌙',price:18},
+    {id:2703,title:'Sweetener',year:2018,emoji:'🍬',price:17},
+    {id:2704,title:'eternal sunshine',year:2024,emoji:'☀️',price:19,new:true},
+  ]},
+  {id:28,name:'SZA',genre:'poprnb',emoji:'🌙',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/SZA_2018_%28cropped%29.jpg/480px-SZA_2018_%28cropped%29.jpg',albums:[
+    {id:2801,title:'SOS',year:2022,emoji:'🆘',price:19,hot:true},
+    {id:2802,title:'Ctrl',year:2017,emoji:'🎛️',price:18},
+    {id:2803,title:'Good Days',year:2021,emoji:'🌸',price:17,new:true},
+  ]},
+  {id:29,name:'Dua Lipa',genre:'poprnb',emoji:'💋',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/190616-dua-lipa-se-135p_02cf8e4c35a7fd04bdbb7604d5e0e812.jpg/480px-190616-dua-lipa-se-135p_02cf8e4c35a7fd04bdbb7604d5e0e812.jpg',albums:[
+    {id:2901,title:'Future Nostalgia',year:2020,emoji:'🕺',price:19,hot:true},
+    {id:2902,title:'Radical Optimism',year:2024,emoji:'✨',price:19,new:true},
+    {id:2903,title:'Dua Lipa',year:2017,emoji:'💋',price:16},
+  ]},
+  {id:30,name:'Anuel AA',genre:'traplatino',emoji:'👁️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Anuel_AA_2019_%28cropped%29.jpg/480px-Anuel_AA_2019_%28cropped%29.jpg',albums:[
+    {id:3001,title:'Real Hasta la Muerte',year:2018,emoji:'💀',price:17,hot:true},
+    {id:3002,title:'Emmanuel',year:2020,emoji:'😇',price:18},
+    {id:3003,title:'Las Leyendas Nunca Mueren',year:2021,emoji:'👁️',price:17},
+  ]},
+  {id:31,name:'Myke Towers',genre:'traplatino',emoji:'🗼',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Myke_Towers_2021_%28cropped%29.jpg/480px-Myke_Towers_2021_%28cropped%29.jpg',albums:[
+    {id:3101,title:'Easy Money Baby',year:2021,emoji:'💰',price:17,hot:true},
+    {id:3102,title:'LYKE MIKE',year:2020,emoji:'🗼',price:16},
+    {id:3103,title:'El Final Del Principio',year:2022,emoji:'🌅',price:17,new:true},
+  ]},
+  {id:32,name:'Jhay Cortez',genre:'traplatino',emoji:'🌊',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Jhay_Cortez_2021_%28cropped%29.jpg/480px-Jhay_Cortez_2021_%28cropped%29.jpg',albums:[
+    {id:3201,title:'Timelezz',year:2019,emoji:'⏳',price:17},
+    {id:3202,title:'El Amor y La Guerra',year:2022,emoji:'⚔️',price:18,hot:true},
+    {id:3203,title:'No Pare',year:2024,emoji:'🚀',price:18,new:true},
+  ]},
+  {id:33,name:'Bryant Myers',genre:'traplatino',emoji:'🦅',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Bryant_Myers_2019_%28cropped%29.jpg/480px-Bryant_Myers_2019_%28cropped%29.jpg',albums:[
+    {id:3301,title:'Bendición',year:2018,emoji:'🙏',price:16},
+    {id:3302,title:'Snacks',year:2019,emoji:'🎯',price:16,hot:true},
+    {id:3303,title:'Jauría',year:2022,emoji:'🐺',price:17,new:true},
+  ]},
+  {id:34,name:'Kendrick Lamar',genre:'rapusuk',emoji:'🎤',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Kendrick_Lamar_-_Coachella_2023_%28cropped%29.jpg/480px-Kendrick_Lamar_-_Coachella_2023_%28cropped%29.jpg',albums:[
+    {id:3401,title:'To Pimp a Butterfly',year:2015,emoji:'🦋',price:19,hot:true},
+    {id:3402,title:'DAMN.',year:2017,emoji:'🔴',price:19},
+    {id:3403,title:'Mr. Morale & The Big Steppers',year:2022,emoji:'👑',price:19,new:true},
+    {id:3404,title:'GNX',year:2024,emoji:'🚗',price:20,hot:true},
+  ]},
+  {id:35,name:'Drake',genre:'rapusuk',emoji:'🦉',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Drake_July_2016.jpg/480px-Drake_July_2016.jpg',albums:[
+    {id:3501,title:'Take Care',year:2011,emoji:'🥂',price:18,hot:true},
+    {id:3502,title:'Views',year:2016,emoji:'🗼',price:18},
+    {id:3503,title:'Certified Lover Boy',year:2021,emoji:'🌹',price:18},
+    {id:3504,title:'For All the Dogs',year:2023,emoji:'🐶',price:18,new:true},
+  ]},
+  {id:36,name:'Travis Scott',genre:'rapusuk',emoji:'🌵',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Travis_Scott_2021_%28cropped%29.jpg/480px-Travis_Scott_2021_%28cropped%29.jpg',albums:[
+    {id:3601,title:'Astroworld',year:2018,emoji:'🎡',price:20,hot:true},
+    {id:3602,title:'Rodeo',year:2015,emoji:'🤠',price:18},
+    {id:3603,title:'Birds in the Trap',year:2016,emoji:'🐦',price:17},
+    {id:3604,title:'UTOPIA',year:2023,emoji:'🌌',price:19,new:true},
+  ]},
+  {id:37,name:'J. Cole',genre:'rapusuk',emoji:'🌲',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/J._Cole_2016_%28cropped%29.jpg/480px-J._Cole_2016_%28cropped%29.jpg',albums:[
+    {id:3701,title:'2014 Forest Hills Drive',year:2014,emoji:'🏠',price:19,hot:true},
+    {id:3702,title:'KOD',year:2018,emoji:'👁️',price:18},
+    {id:3703,title:'The Off-Season',year:2021,emoji:'🍂',price:18,new:true},
+  ]},
+];
+
+// ─── 10 FEATURED albums (one per genre + one extra) ───
+const FEATURED_IDS = [101, 601, 903, 1001, 1101, 1401, 1801, 2201, 2601, 3601];
+
+// ─── STATE ───
+let cart = [];
+let activeGenre = 'all';
+let searchQuery = '';
+let activeArtistGenre = 'all';
+let currentView = 'home';
+
+// ─── COLORS ───
+const genreColors = {
+  reggaeton:  ['#FF3CAC','#784BA0'],
+  poplatino:  ['#F7971E','#FFD200'],
+  rock:       ['#FF4136','#FF851B'],
+  kpop:       ['#A855F7','#EC4899'],
+  electronica:['#00DBDE','#7C3AED'],
+  regional:   ['#D4A017','#8B4513'],
+  poprnb:     ['#EC4899','#8B5CF6'],
+  traplatino: ['#10B981','#064E3B'],
+  rapusuk:    ['#F59E0B','#EF4444'],
+};
+function genreGradient(g){const c=genreColors[g]||['#7C3AED','#EC4899'];return `linear-gradient(135deg,${c[0]}33 0%,${c[1]}44 60%,#111 100%)`;}
+function genreAccent(g){return (genreColors[g]||['#7C3AED'])[0];}
+
+// ─── HELPERS ───
+function getProducts(){
+  return artists.flatMap(a=>a.albums.map(al=>({...al,artistId:a.id,artistName:a.name,artistEmoji:a.emoji,genre:a.genre})));
+}
+function esc(s){return String(s).replace(/'/g,"\\'");}
+
+// ─── VIEW SWITCH ───
+function switchView(v){
+  currentView = v;
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view'+v.charAt(0).toUpperCase()+v.slice(1)).classList.add('active');
+  document.getElementById('nav'+v.charAt(0).toUpperCase()+v.slice(1)).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(v==='shop') renderShop();
+  if(v==='artists') renderArtistsView();
+  if(v==='home') renderFeatured();
+}
+function goHome(){switchView('home');}
+
+// ─── POPUP ───
+const popup = document.getElementById('artistPopup');
+let popupTimeout;
+
+function showPopup(e, artistId, albumTitle){
+  const artist = artists.find(a=>a.id===artistId);
+  if(!artist) return;
+  clearTimeout(popupTimeout);
+  document.getElementById('popupPhoto').src = artist.photo || '';
+  document.getElementById('popupPhoto').style.display = artist.photo ? 'block' : 'none';
+  document.getElementById('popupEmoji').textContent = artist.emoji;
+  document.getElementById('popupEmoji').style.display = artist.photo ? 'none' : 'block';
+  document.getElementById('popupName').textContent = artist.name;
+  document.getElementById('popupGenre').textContent = genres.find(g=>g.id===artist.genre)?.label || artist.genre;
+  document.getElementById('popupAlbum').textContent = '🎵 ' + albumTitle;
+  popup.classList.add('visible');
+  movePopup(e);
+}
+
+function movePopup(e){
+  const pw = 210, ph = 220;
+  let x = e.clientX + 20;
+  let y = e.clientY - ph/2;
+  if(x + pw > window.innerWidth - 10) x = e.clientX - pw - 20;
+  if(y < 10) y = 10;
+  if(y + ph > window.innerHeight - 10) y = window.innerHeight - ph - 10;
+  popup.style.left = x + 'px';
+  popup.style.top  = y + 'px';
+}
+
+function hidePopup(){
+  popupTimeout = setTimeout(()=> popup.classList.remove('visible'), 120);
+}
+
+document.addEventListener('mousemove', function(e){
+  if(popup.classList.contains('visible')) movePopup(e);
+});
+
+// ─── CARD HTML ───
+function cardHTML(p, i, clickFn){
+  return `
+  <div class="card" style="animation-delay:${i*0.04}s"
+       onclick="${clickFn}"
+       onmouseenter="showPopup(event,${p.artistId},'${esc(p.title)}')"
+       onmouseleave="hidePopup()">
+    ${p.new?'<span class="card-badge badge-new">Nuevo</span>':''}
+    ${p.hot?'<span class="card-badge badge-hot">🔥 Hot</span>':''}
+    <span class="card-a4">A4</span>
+    <div class="card-img-box" style="background:${genreGradient(p.genre)}">
+      <span style="font-size:3.5rem">${p.emoji}</span>
+      <span style="font-size:1rem;font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;color:rgba(255,255,255,0.65);padding:0 0.5rem;text-align:center">${p.title}</span>
+    </div>
+    <div class="card-body">
+      <div class="card-genre" style="color:${genreAccent(p.genre)}">${genres.find(g=>g.id===p.genre)?.label||p.genre}</div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-artist">${p.artistEmoji} ${p.artistName}</div>
+      <div class="card-footer">
+        <button class="add-btn" style="width:100%;border-radius:10px;padding:0.5rem;font-size:0.82rem;font-weight:600;gap:0.4rem;display:flex;align-items:center;justify-content:center;"
+          onclick="event.stopPropagation();addToCartById(${p.id},${p.artistId},'${esc(p.title)}','${esc(p.artistName)}',${p.price},'${p.emoji}')">
+          + Agregar al carrito
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ─── FEATURED (HOME) ───
+function renderFeatured(){
+  const all = getProducts();
+  const featured = FEATURED_IDS.map(id=>all.find(p=>p.id===id)).filter(Boolean);
+  const grid = document.getElementById('featuredGrid');
+  if(!grid) return;
+  grid.innerHTML = featured.map((p,i)=>cardHTML(p,i,`openArtistModal(${p.artistId})`)).join('');
+}
+
+// ─── SHOP VIEW ───
+function renderShop(){
+  renderTabs();
+  renderProducts();
+}
+function renderTabs(){
+  const c=document.getElementById('tabsContainer');
+  if(!c)return;
+  c.innerHTML=genres.map(g=>`<button class="tab${activeGenre===g.id?' active':''}" onclick="setGenre('${g.id}')">${g.label}</button>`).join('');
+}
+function setGenre(id){
+  activeGenre=id;
+  renderTabs();
+  renderProducts();
+  const g=genres.find(x=>x.id===id);
+  document.getElementById('sectionTitle').textContent=id==='all'?'Todos los cuadros':`Cuadros – ${g.label}`;
+}
+function filteredProducts(){
+  const q=searchQuery.trim().toLowerCase();
+  return getProducts().filter(p=>{
+    const mg=activeGenre==='all'||p.genre===activeGenre;
+    const ms=!q||p.artistName.toLowerCase().includes(q)||p.title.toLowerCase().includes(q);
+    return mg&&ms;
+  });
+}
+function renderProducts(){
+  const grid=document.getElementById('productsGrid');
+  if(!grid)return;
+  const products=filteredProducts();
+  if(!products.length){
+    grid.innerHTML=`<div class="no-results"><span class="nr-icon">🔍</span>No se encontraron cuadros.<br>Intenta con otro artista o género.</div>`;
+    return;
+  }
+  grid.innerHTML=products.map((p,i)=>cardHTML(p,i,`openArtistModal(${p.artistId})`)).join('');
+}
+
+// ─── ARTISTS VIEW ───
+function renderArtistsView(){
+  renderArtistGenreBar();
+  renderArtistsGrid();
+}
+function renderArtistGenreBar(){
+  const bar=document.getElementById('artistsGenreBar');
+  if(!bar)return;
+  bar.innerHTML=genres.map(g=>`<button class="genre-chip${activeArtistGenre===g.id?' active':''}" onclick="setArtistGenre('${g.id}')">${g.label}</button>`).join('');
+}
+function setArtistGenre(id){
+  activeArtistGenre=id;
+  renderArtistGenreBar();
+  renderArtistsGrid();
+}
+function renderArtistsGrid(){
+  const grid=document.getElementById('artistsGrid');
+  if(!grid)return;
+  const list=activeArtistGenre==='all'?artists:artists.filter(a=>a.genre===activeArtistGenre);
+  const q=searchQuery.trim().toLowerCase();
+  const filtered=q?list.filter(a=>a.name.toLowerCase().includes(q)):list;
+  if(!filtered.length){
+    grid.innerHTML=`<div class="no-results" style="grid-column:1/-1"><span class="nr-icon">🔍</span>No se encontraron artistas.</div>`;
+    return;
+  }
+  grid.innerHTML=filtered.map((a,i)=>{
+    const gLabel=genres.find(g=>g.id===a.genre)?.label||a.genre;
+    const acc=genreAccent(a.genre);
+    return `
+    <div class="artist-card" style="animation-delay:${i*0.035}s" onclick="openArtistModal(${a.id})">
+      <div class="artist-card-banner" style="background:${genreGradient(a.genre)}">
+        ${a.photo
+          ? `<img src="${a.photo}" alt="${a.name}" style="width:100%;height:100%;object-fit:cover;object-position:top;position:absolute;inset:0;opacity:0.7;" onerror="this.style.display='none'">`
+          : ''}
+        <span style="font-size:3rem;position:relative;z-index:2">${a.emoji}</span>
+      </div>
+      <div class="artist-card-body">
+        <div class="artist-card-name">${a.name}</div>
+        <div class="artist-card-genre" style="color:${acc}">${gLabel}</div>
+        <div class="artist-card-count"><span>${a.albums.length}</span> álbum${a.albums.length!==1?'es':''} disponible${a.albums.length!==1?'s':''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── ARTIST MODAL ───
+function openArtistModal(artistId){
+  const artist=artists.find(a=>a.id===artistId);
+  if(!artist)return;
+  const avatarEl = document.getElementById('modalAvatar');
+  if(artist.photo){
+    avatarEl.innerHTML = `<img src="${artist.photo}" alt="${artist.name}" style="width:100%;height:100%;object-fit:cover;object-position:top;border-radius:50%" onerror="this.parentElement.textContent='${artist.emoji}'">`;
+  } else {
+    avatarEl.textContent = artist.emoji;
+  }
+  document.getElementById('modalArtistName').textContent=artist.name;
+  document.getElementById('modalArtistGenre').textContent=genres.find(g=>g.id===artist.genre)?.label||artist.genre;
+  const grid=document.getElementById('modalGrid');
+  grid.innerHTML=artist.albums.map(al=>`
+    <div class="modal-card">
+      <div class="modal-album-art" style="background:${genreGradient(artist.genre)}">
+        <span>${al.emoji}</span>
+        <span style="font-size:0.6rem;font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;color:rgba(255,255,255,0.6);padding:0 0.3rem;text-align:center">${al.title}</span>
+      </div>
+      <div class="modal-card-body">
+        <div class="modal-card-title">${al.title}</div>
+        <div class="modal-card-year">${al.year} · A4</div>
+        <button class="modal-add" onclick="addToCartById(${al.id},${artist.id},'${esc(al.title)}','${esc(artist.name)}',${al.price},'${al.emoji}')">+ Agregar al carrito</button>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('artistOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('artistOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeArtistModal(e){if(e.target===document.getElementById('artistOverlay'))closeModal();}
+
+// ─── CART ───
+function addToCartById(id,artistId,title,artist,price,emoji){
+  if(cart.find(i=>i.id===id)){showToast(`"${title}" ya está en tu carrito`,'ℹ️');return;}
+  cart.push({id,artistId,title,artist,price,emoji});
+  updateCartUI();
+  showToast(`<strong>${title}</strong> agregado al carrito`,'✅');
+}
+function removeFromCart(id){cart=cart.filter(i=>i.id!==id);updateCartUI();}
+function updateCartUI(){
+  document.getElementById('cartCount').textContent=cart.length;
+  const container=document.getElementById('cartItems');
+  const footer=document.getElementById('cartFooter');
+  if(!cart.length){
+    container.innerHTML='<div class="cart-empty"><span class="empty-icon">🎵</span>Tu carrito está vacío.<br>Agrega tus cuadros favoritos.</div>';
+    footer.style.display='none';return;
+  }
+  footer.style.display='block';
+  container.innerHTML=cart.map(i=>`
+    <div class="cart-item">
+      <div class="cart-item-img">${i.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${i.title}</div>
+        <div class="cart-item-artist">${i.artist} · A4</div>
+        <div class="cart-item-price">$5.00</div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${i.id})">🗑</button>
+    </div>
+  `).join('');
+  document.getElementById('cartTotal').textContent=`$${cart.length * 5}.00`;
+}
+function toggleCart(){
+  const ov=document.getElementById('cartOverlay');
+  const open=ov.classList.contains('open');
+  ov.classList.toggle('open');
+  document.body.style.overflow=open?'':'hidden';
+}
+function closeCartOutside(e){if(e.target===document.getElementById('cartOverlay'))toggleCart();}
+
+// ─── WHATSAPP ───
+function openWhatsApp(msg){
+  const m=msg||'¡Hola! Me gustaría hacer un pedido en CoverVibes 🎨';
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(m)}`,'_blank');
+}
+function checkoutWhatsApp(){
+  if(!cart.length)return;
+  const items = cart.map((i,idx) =>
+    `  ${idx+1}️⃣ *${i.title}* — ${i.artist}\n     🎨 Formato A4 · $5.00 c/u`
+  ).join('\n');
+  const total = cart.length * 5;
+  const msg =
+`🎨 *¡Hola CoverVibes!* 
+
+Quiero hacer el siguiente pedido:
+
+🛒 *MIS CUADROS:*
+${items}
+
+──────────────────
+🖼️ *Total cuadros:* $${total}.00
+📦 *Envío:*
+   • Durán → $5.00
+   • Guayaquil → $6.00
+   • Otras ciudades → a cotizar
+
+──────────────────
+📍 *Mi ubicación:* _[escribe aquí tu ciudad/barrio]_
+📱 *Nombre:* _[tu nombre]_
+
+¿Me pueden confirmar disponibilidad y coordinar la entrega? 🙏`;
+  openWhatsApp(msg);
+}
+let waTooltipTimeout;
+function showWaTooltip(){
+  const t=document.getElementById('waTooltip');
+  t.classList.add('show');
+  clearTimeout(waTooltipTimeout);
+  waTooltipTimeout=setTimeout(()=>t.classList.remove('show'),4000);
+}
+
+// ─── TOAST ───
+let toastTimeout;
+function showToast(html,icon='✅'){
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').innerHTML=html;
+  t.querySelector('.toast-icon').textContent=icon;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ─── SEARCH ───
+document.getElementById('searchInput').addEventListener('input',function(){
+  searchQuery=this.value;
+  if(currentView==='shop')renderProducts();
+  if(currentView==='artists')renderArtistsGrid();
+});
+document.getElementById('searchInput').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    const q=this.value.trim().toLowerCase();
+    const match=artists.find(a=>a.name.toLowerCase()===q);
+    if(match)openArtistModal(match.id);
+  }
+});
+
+// ─── INIT ───
+renderFeatured();
+updateCartUI();
+</script>
+
+<!-- ── YOUTUBE MUSIC PLAYER ── -->
+<div id="ytMusicPlayer" style="
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;
+  background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,0,0,0.3);border-radius:14px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.6),0 0 20px rgba(255,0,0,0.1);
+  overflow:hidden;transition:all 0.3s;width:280px;
+">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.06);">
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <span style="color:#FF0000;font-size:0.9rem;">▶</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#fff;">Latin Mix 🎵</span>
+      <div id="ytBars" style="display:flex;align-items:flex-end;gap:2px;height:14px;">
+        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0s;height:5px"></span>
+        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.15s;height:11px"></span>
+        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.3s;height:7px"></span>
+        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.1s;height:13px"></span>
+        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.25s;height:5px"></span>
+      </div>
+    </div>
+    <button onclick="toggleYTPlayer()" id="ytToggleBtn" style="
+      background:rgba(255,255,255,0.08);border:none;border-radius:6px;
+      color:#9CA3AF;font-size:0.72rem;padding:0.2rem 0.5rem;cursor:pointer;
+      font-family:'Inter',sans-serif;
+    ">— ocultar</button>
+  </div>
+  <div id="ytEmbedWrap" style="width:280px;height:157px;">
+    <!-- Video: autoplay=1, mute=1 para que el navegador lo permita, volume se ajusta por JS -->
+    <iframe id="ytEmbed"
+      src="https://www.youtube.com/embed/5nDiTly_g0w?autoplay=1&mute=1&loop=1&playlist=5nDiTly_g0w&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+      width="280" height="157"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      style="display:block;"
+      id="ytEmbed">
+    </iframe>
+  </div>
+</div>
+
+<script>
+// ── YouTube player: desmutear y bajar volumen a 25% al cargar ──
+let ytOpen = true;
+let volumeSet = false;
+
+// Usamos YouTube IFrame API para controlar el volumen
+function onYouTubeIframeAPIReady(){
+  const player = new YT.Player('ytEmbed', {
+    events:{
+      onReady: function(e){
+        // Desmutear y poner volumen al 25%
+        e.target.unMute();
+        e.target.setVolume(25);
+        volumeSet = true;
+      }
+    }
+  });
+}
+
+// Cargar YouTube IFrame API
+(function(){
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+})();
+
+function toggleYTPlayer(){
+  const wrap = document.getElementById('ytEmbedWrap');
+  const btn  = document.getElementById('ytToggleBtn');
+  const bars = document.getElementById('ytBars');
+  ytOpen = !ytOpen;
+  wrap.style.display = ytOpen ? 'block' : 'none';
+  btn.textContent    = ytOpen ? '— ocultar' : '+ música';
+  bars.style.opacity = ytOpen ? '1' : '0.4';
+  document.getElementById('ytMusicPlayer').style.width = ytOpen ? '280px' : 'auto';
+}
+</script>
+
+</body>
+</html>
