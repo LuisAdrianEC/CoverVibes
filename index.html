@@ -370,6 +370,10 @@
     box-shadow:0 8px 30px rgba(0,0,0,0.4);max-width:300px;
   }
   .toast.show{transform:translateY(0);}
+  @media(max-width:640px){
+    .toast{bottom:auto;top:1rem;right:1rem;left:1rem;max-width:100%;transform:translateY(-120%);}
+    .toast.show{transform:translateY(0);}
+  }
   .toast-icon{font-size:1.2rem;}
   .toast strong{color:var(--violet-light);}
 
@@ -544,7 +548,7 @@
     /* ── YOUTUBE PLAYER ── */
     #ytMusicPlayer{
       right:0.75rem;
-      bottom:4.5rem;
+      bottom:5.5rem;
     }
 
     /* ── WHATSAPP ── */
@@ -1562,10 +1566,10 @@ updateCartUI();
   <!-- Player expandible (oculto por defecto) -->
   <div id="ytEmbedWrap" style="display:none;width:280px;">
     <iframe id="ytEmbed"
-      src="https://www.youtube.com/embed/GAsbkae7rvE?autoplay=1&mute=1&loop=1&playlist=GAsbkae7rvE&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+      src="https://www.youtube-nocookie.com/embed/GAsbkae7rvE?autoplay=1&mute=1&loop=1&playlist=GAsbkae7rvE&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=null"
       width="280" height="157"
       frameborder="0"
-      allow="autoplay; encrypted-media"
+      allow="autoplay; encrypted-media; fullscreen"
       allowfullscreen
       style="display:block;">
     </iframe>
