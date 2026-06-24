@@ -199,30 +199,59 @@
 
   /* ── ARTISTS VIEW ── */
   .artists-view-section{padding:5rem 2rem 2rem;max-width:1400px;margin:0 auto;}
-  .artists-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.25rem;margin-top:1.5rem;}
+  .artists-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-top:1.5rem;}
+
   .artist-card{
-    background:var(--card-bg);border-radius:16px;overflow:hidden;
-    border:1px solid rgba(255,255,255,0.05);cursor:pointer;
+    background:var(--card-bg);border-radius:20px;overflow:hidden;
+    border:1px solid rgba(255,255,255,0.06);cursor:pointer;
     transition:transform 0.3s cubic-bezier(0.34,1.4,0.64,1),box-shadow 0.3s,border-color 0.25s;
     animation:fadeUp 0.35s ease both;
+    position:relative;aspect-ratio:3/4;
   }
   .artist-card:hover{
-    transform:scale(1.05) translateY(-6px);
-    box-shadow:0 20px 50px rgba(0,0,0,0.5),0 0 25px rgba(124,58,237,0.2);
-    border-color:rgba(124,58,237,0.4);
+    transform:scale(1.03) translateY(-6px);
+    box-shadow:0 24px 60px rgba(0,0,0,0.7),0 0 30px rgba(124,58,237,0.25);
+    border-color:rgba(124,58,237,0.5);
   }
-  .artist-card-banner{
-    width:100%;height:110px;display:flex;align-items:center;justify-content:center;
-    font-size:3.5rem;position:relative;overflow:hidden;
+  .artist-card-photo{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:top center;
+    transition:transform 0.4s ease;
   }
-  .artist-card-banner::after{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.6));
+  .artist-card:hover .artist-card-photo{transform:scale(1.05);}
+  .artist-card-gradient{
+    position:absolute;inset:0;
+    background:linear-gradient(to bottom,
+      transparent 30%,
+      rgba(0,0,0,0.3) 55%,
+      rgba(0,0,0,0.85) 80%,
+      rgba(0,0,0,0.97) 100%);
   }
-  .artist-card-body{padding:0.9rem;}
-  .artist-card-name{font-weight:700;font-size:0.95rem;margin-bottom:0.2rem;}
-  .artist-card-genre{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;}
-  .artist-card-count{font-size:0.75rem;color:var(--gray);}
+  .artist-card-fallback{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:5rem;
+  }
+  .artist-card-info{
+    position:absolute;bottom:0;left:0;right:0;
+    padding:1.25rem 1.25rem 1.1rem;
+  }
+  .artist-card-rank{
+    font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;
+    font-weight:700;text-transform:uppercase;margin-bottom:0.3rem;
+  }
+  .artist-card-name{
+    font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:0.04em;
+    color:#fff;line-height:1;margin-bottom:0.4rem;
+    text-shadow:0 2px 8px rgba(0,0,0,0.5);
+  }
+  .artist-card-country{
+    display:flex;align-items:center;gap:0.4rem;font-size:0.75rem;
+    color:rgba(255,255,255,0.75);margin-bottom:0.5rem;
+  }
+  .artist-card-flag{font-size:1rem;}
+  .artist-card-count{
+    font-size:0.72rem;color:rgba(255,255,255,0.5);
+    font-family:'JetBrains Mono',monospace;
+  }
   .artist-card-count span{color:var(--gold);font-weight:600;}
 
   /* ── GENRE FILTER FOR ARTISTS ── */
@@ -450,7 +479,6 @@
     .tab{font-size:0.75rem;padding:0.5rem 0.9rem;}
     .modal-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem;}
     .artists-grid{grid-template-columns:repeat(2,1fr);gap:0.75rem;}
-    .artists-view-section{padding:5rem 1rem 1rem;}
     .artist-modal{padding:1.25rem;}
     .modal-artist-name{font-size:1.8rem;}
     .shipping-grid{grid-template-columns:1fr;}
@@ -687,7 +715,7 @@ const genres = [
 ];
 
 const artists = [
-  {id:1,name:'Bad Bunny',genre:'reggaeton',emoji:'🐰',photo:'https://www.eluniverso.com/resizer/v2/YASOKMSGHRFJBN7FBJAQXFOYPE.jpg?auth=3edbff803cde0cca21e6994113c37ef118b5510f1a180081227bd9a5925a1300',albums:[
+  {id:1,name:'Bad Bunny',genre:'reggaeton',emoji:'🐰',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Bad_Bunny_2019_Latin_Grammy_Awards_%28cropped%29.jpg/480px-Bad_Bunny_2019_Latin_Grammy_Awards_%28cropped%29.jpg',albums:[
     {id:101,title:'Un Verano Sin Ti',year:2022,emoji:'☀️',price:19,hot:true},
     {id:102,title:'El Último Tour del Mundo',year:2020,emoji:'🌍',price:18},
     {id:103,title:'YHLQMDLG',year:2020,emoji:'🐰',price:18,new:true},
@@ -1052,6 +1080,47 @@ function setArtistGenre(id){
   renderArtistGenreBar();
   renderArtistsGrid();
 }
+// ─── COUNTRY DATA ───
+const artistCountry = {
+  1:  {name:'Puerto Rico', flag:'🇵🇷'},
+  2:  {name:'Colombia',    flag:'🇨🇴'},
+  3:  {name:'Puerto Rico', flag:'🇵🇷'},
+  4:  {name:'Puerto Rico', flag:'🇵🇷'},
+  5:  {name:'Puerto Rico', flag:'🇵🇷'},
+  6:  {name:'Colombia',    flag:'🇨🇴'},
+  7:  {name:'Colombia',    flag:'🇨🇴'},
+  8:  {name:'Colombia',    flag:'🇨🇴'},
+  9:  {name:'Colombia',    flag:'🇨🇴'},
+  10: {name:'EE.UU.',      flag:'🇺🇸'},
+  11: {name:'Reino Unido', flag:'🇬🇧'},
+  12: {name:'EE.UU.',      flag:'🇺🇸'},
+  13: {name:'Reino Unido', flag:'🇬🇧'},
+  14: {name:'Corea del Sur',flag:'🇰🇷'},
+  15: {name:'Corea del Sur',flag:'🇰🇷'},
+  16: {name:'Corea del Sur',flag:'🇰🇷'},
+  17: {name:'Corea del Sur',flag:'🇰🇷'},
+  18: {name:'Francia',     flag:'🇫🇷'},
+  19: {name:'Reino Unido', flag:'🇬🇧'},
+  20: {name:'Canadá',      flag:'🇨🇦'},
+  21: {name:'Países Bajos',flag:'🇳🇱'},
+  22: {name:'México',      flag:'🇲🇽'},
+  23: {name:'México',      flag:'🇲🇽'},
+  24: {name:'México',      flag:'🇲🇽'},
+  25: {name:'México',      flag:'🇲🇽'},
+  26: {name:'EE.UU.',      flag:'🇺🇸'},
+  27: {name:'EE.UU.',      flag:'🇺🇸'},
+  28: {name:'EE.UU.',      flag:'🇺🇸'},
+  29: {name:'Albania',     flag:'🇦🇱'},
+  30: {name:'Puerto Rico', flag:'🇵🇷'},
+  31: {name:'Puerto Rico', flag:'🇵🇷'},
+  32: {name:'Puerto Rico', flag:'🇵🇷'},
+  33: {name:'Puerto Rico', flag:'🇵🇷'},
+  34: {name:'EE.UU.',      flag:'🇺🇸'},
+  35: {name:'Canadá',      flag:'🇨🇦'},
+  36: {name:'EE.UU.',      flag:'🇺🇸'},
+  37: {name:'EE.UU.',      flag:'🇺🇸'},
+};
+
 function renderArtistsGrid(){
   const grid=document.getElementById('artistsGrid');
   if(!grid)return;
@@ -1063,20 +1132,26 @@ function renderArtistsGrid(){
     return;
   }
   grid.innerHTML=filtered.map((a,i)=>{
-    const gLabel=genres.find(g=>g.id===a.genre)?.label||a.genre;
     const acc=genreAccent(a.genre);
+    const gLabel=genres.find(g=>g.id===a.genre)?.label||a.genre;
+    const country=artistCountry[a.id]||{name:'',flag:''};
+    const rankNum = i+1;
     return `
-    <div class="artist-card" style="animation-delay:${i*0.035}s" onclick="openArtistModal(${a.id})">
-      <div class="artist-card-banner" style="background:${genreGradient(a.genre)}">
-        ${a.photo
-          ? `<img src="${a.photo}" alt="${a.name}" style="width:100%;height:100%;object-fit:cover;object-position:top;position:absolute;inset:0;opacity:0.7;" onerror="this.style.display='none'">`
-          : ''}
-        <span style="font-size:3rem;position:relative;z-index:2">${a.emoji}</span>
-      </div>
-      <div class="artist-card-body">
+    <div class="artist-card" style="animation-delay:${i*0.035}s;background:${genreGradient(a.genre)}" onclick="openArtistModal(${a.id})">
+      ${a.photo
+        ? `<img class="artist-card-photo" src="${a.photo}" alt="${a.name}" onerror="this.style.display='none'">`
+        : `<div class="artist-card-fallback">${a.emoji}</div>`}
+      <div class="artist-card-gradient"></div>
+      <div class="artist-card-info">
+        <div class="artist-card-rank" style="color:${acc}">#${rankNum} · ${country.name.toUpperCase()}</div>
         <div class="artist-card-name">${a.name}</div>
-        <div class="artist-card-genre" style="color:${acc}">${gLabel}</div>
-        <div class="artist-card-count"><span>${a.albums.length}</span> álbum${a.albums.length!==1?'es':''} disponible${a.albums.length!==1?'s':''}</div>
+        <div class="artist-card-country">
+          <span class="artist-card-flag">${country.flag}</span>
+          <span>${country.name}</span>
+          <span style="margin-left:0.25rem;color:rgba(255,255,255,0.4)">·</span>
+          <span style="color:${acc}">${gLabel}</span>
+        </div>
+        <div class="artist-card-count"><span>${a.albums.length}</span> álbum${a.albums.length!==1?'es':''} disponibles</div>
       </div>
     </div>`;
   }).join('');
