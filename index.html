@@ -543,9 +543,8 @@
 
     /* ── YOUTUBE PLAYER ── */
     #ytMusicPlayer{
-      width:calc(100vw - 1.5rem) !important;
-      right:0.75rem;bottom:5rem;
-      border-radius:12px;
+      right:0.75rem;
+      bottom:4.5rem;
     }
 
     /* ── WHATSAPP ── */
@@ -1408,30 +1407,30 @@ updateCartUI();
 <div id="ytMusicPlayer" style="
   position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;
   background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);
-  border:1px solid rgba(255,0,0,0.3);border-radius:14px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.6),0 0 20px rgba(255,0,0,0.1);
-  overflow:hidden;transition:all 0.3s;width:280px;
+  border:1px solid rgba(255,0,0,0.25);border-radius:2rem;
+  box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  transition:all 0.35s cubic-bezier(0.34,1.2,0.64,1);
+  overflow:hidden;
 ">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.75rem;border-bottom:1px solid rgba(255,255,255,0.06);">
-    <div style="display:flex;align-items:center;gap:0.5rem;">
-      <span style="color:#FF0000;font-size:0.9rem;">▶</span>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:0.08em;color:#fff;">Latin Mix 🎵</span>
-      <div id="ytBars" style="display:flex;align-items:flex-end;gap:2px;height:14px;">
-        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0s;height:5px"></span>
-        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.15s;height:11px"></span>
-        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.3s;height:7px"></span>
-        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.1s;height:13px"></span>
-        <span style="display:block;width:3px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.25s;height:5px"></span>
-      </div>
+  <!-- Pill siempre visible -->
+  <div onclick="toggleYTPlayer()" style="
+    display:flex;align-items:center;gap:0.5rem;
+    padding:0.45rem 0.9rem;cursor:pointer;
+  ">
+    <span style="color:#FF0000;font-size:0.85rem;" id="ytPlayIcon">▶</span>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.08em;color:#fff;">Música</span>
+    <div id="ytBars" style="display:flex;align-items:flex-end;gap:2px;height:12px;">
+      <span style="display:block;width:2px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0s;height:4px"></span>
+      <span style="display:block;width:2px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.15s;height:9px"></span>
+      <span style="display:block;width:2px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.3s;height:6px"></span>
+      <span style="display:block;width:2px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.1s;height:10px"></span>
+      <span style="display:block;width:2px;background:#FF0000;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.25s;height:4px"></span>
     </div>
-    <button onclick="toggleYTPlayer()" id="ytToggleBtn" style="
-      background:rgba(255,255,255,0.08);border:none;border-radius:6px;
-      color:#9CA3AF;font-size:0.72rem;padding:0.2rem 0.5rem;cursor:pointer;
-      font-family:'Inter',sans-serif;
-    ">— ocultar</button>
+    <span id="ytToggleIcon" style="color:#6B7280;font-size:0.7rem;margin-left:0.2rem;">▲</span>
   </div>
-  <div id="ytEmbedWrap" style="width:280px;height:157px;">
-    <!-- Video: autoplay=1, mute=1 para que el navegador lo permita, volume se ajusta por JS -->
+
+  <!-- Player expandible (oculto por defecto) -->
+  <div id="ytEmbedWrap" style="display:none;width:280px;">
     <iframe id="ytEmbed"
       src="https://www.youtube.com/embed/GAsbkae7rvE?autoplay=1&mute=1&loop=1&playlist=GAsbkae7rvE&controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
       width="280" height="157"
@@ -1487,13 +1486,18 @@ document.addEventListener('click', function(){
 
 function toggleYTPlayer(){
   const wrap = document.getElementById('ytEmbedWrap');
-  const btn  = document.getElementById('ytToggleBtn');
-  const bars = document.getElementById('ytBars');
+  const icon = document.getElementById('ytToggleIcon');
+  const player = document.getElementById('ytMusicPlayer');
   ytOpen = !ytOpen;
-  wrap.style.display = ytOpen ? 'block' : 'none';
-  btn.textContent    = ytOpen ? '— ocultar' : '+ música';
-  bars.style.opacity = ytOpen ? '1' : '0.4';
-  document.getElementById('ytMusicPlayer').style.width = ytOpen ? '280px' : 'auto';
+  if(ytOpen){
+    wrap.style.display = 'block';
+    player.style.borderRadius = '14px';
+    icon.textContent = '▼';
+  } else {
+    wrap.style.display = 'none';
+    player.style.borderRadius = '2rem';
+    icon.textContent = '▲';
+  }
 }
 </script>
 
