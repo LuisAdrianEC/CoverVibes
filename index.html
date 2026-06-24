@@ -1308,9 +1308,14 @@ function openArtistModal(artistId){
   const grid=document.getElementById('modalGrid');
   grid.innerHTML=artist.albums.map(al=>`
     <div class="modal-card">
-      <div class="modal-album-art" style="background:${genreGradient(artist.genre)}">
-        <span>${al.emoji}</span>
-        <span style="font-size:0.6rem;font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;color:rgba(255,255,255,0.6);padding:0 0.3rem;text-align:center">${al.title}</span>
+      <div class="modal-album-art" style="background:${genreGradient(artist.genre)};position:relative;overflow:hidden;">
+        ${al.image
+          ? `<img src="${al.image}" alt="${al.title}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          : ''}
+        <div style="${al.image?'display:none;':'display:flex;'}flex-direction:column;align-items:center;justify-content:center;gap:0.2rem;width:100%;height:100%">
+          <span>${al.emoji}</span>
+          <span style="font-size:0.6rem;font-family:'Bebas Neue',sans-serif;letter-spacing:0.1em;color:rgba(255,255,255,0.6);padding:0 0.3rem;text-align:center">${al.title}</span>
+        </div>
       </div>
       <div class="modal-card-body">
         <div class="modal-card-title">${al.title}</div>
