@@ -170,7 +170,7 @@
     border-color:rgba(124,58,237,0.4);z-index:10;
   }
   @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-  .card-img-box{width:100%;aspect-ratio:1/1.414;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;transition:filter 0.35s;}
+  .card-img-box{width:100%;aspect-ratio:1/1.414;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;transition:filter 0.35s;position:relative;overflow:hidden;}
   .card:hover .card-img-box{filter:brightness(1.1) saturate(1.2);}
   .card-body{padding:1rem;}
   .card-genre{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.35rem;}
@@ -548,8 +548,8 @@
     }
 
     /* ── WHATSAPP ── */
-    .whatsapp-float{bottom:5rem;left:0.75rem;width:46px;height:46px;font-size:1.1rem;}
-    .wa-tooltip{left:3.75rem;bottom:5.2rem;max-width:170px;font-size:0.7rem;}
+    .whatsapp-float{bottom:4.75rem;left:0.75rem;width:40px;height:40px;font-size:1rem;}
+    .wa-tooltip{left:3.5rem;bottom:4.9rem;max-width:170px;font-size:0.7rem;}
   }
 
   @media(max-width:380px){
@@ -813,198 +813,227 @@ const genres = [
 ];
 
 const artists = [
-  {id:1,name:'Bad Bunny',genre:'reggaeton',emoji:'🐰',photo:'https://imagenes.elpais.com/resizer/v2/U52QPYUXUZGKDKTFPGSJ7YB5RQ.jpg?auth=1b8b45bd464d922b4b1b9a0881142fd1e9dc605a693f440689f95e2cfa314d95&width=414',albums:[
-    {id:101,title:'Un Verano Sin Ti',year:2022,emoji:'☀️',price:19,hot:true},
-    {id:102,title:'El Último Tour del Mundo',year:2020,emoji:'🌍',price:18},
-    {id:103,title:'YHLQMDLG',year:2020,emoji:'🐰',price:18,new:true},
-    {id:104,title:'X 100PRE',year:2018,emoji:'💥',price:17},
+  // ════════════════════════════════════════════════════════════════════════
+  // CÓMO AGREGAR IMÁGENES DE TUS CUADROS
+  // ════════════════════════════════════════════════════════════════════════
+  // Cada álbum tiene un campo:  image: ''
+  // Escribe la ruta de tu foto ahí. Ejemplos:
+  //   image: 'imagenes/bad-bunny-verano.jpg'    ← imagen en carpeta local
+  //   image: 'https://tusitio.com/foto.jpg'      ← URL externa
+  // Si dejas image:'' se sigue mostrando el emoji como antes.
+  // ════════════════════════════════════════════════════════════════════════
+
+  {id:1,name:'Bad Bunny',genre:'reggaeton',emoji:'🐰',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Bad_Bunny_2019_Latin_Grammy_Awards_%28cropped%29.jpg/480px-Bad_Bunny_2019_Latin_Grammy_Awards_%28cropped%29.jpg',albums:[
+    {id:101,title:'Un Verano Sin Ti',year:2022,emoji:'☀️',price:19,hot:true,image:''},  // ← pon tu ruta aquí
+    {id:102,title:'El Último Tour del Mundo',year:2020,emoji:'🌍',price:18,image:''},
+    {id:103,title:'YHLQMDLG',year:2020,emoji:'🐰',price:18,new:true,image:''},
+    {id:104,title:'X 100PRE',year:2018,emoji:'💥',price:17,image:''},
   ]},
-  {id:2,name:'J Balvin',genre:'reggaeton',emoji:'🌈',photo:'https://hips.hearstapps.com/hmg-prod/images/gettyimages-1404884042.jpg',albums:[
-    {id:201,title:'Colores',year:2020,emoji:'🌈',price:18,hot:true},
-    {id:202,title:'Vibras',year:2018,emoji:'⚡',price:17},
-    {id:203,title:'Energía',year:2016,emoji:'🔥',price:17},
+  {id:2,name:'J Balvin',genre:'reggaeton',emoji:'🌈',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/J_Balvin_2018.jpg/480px-J_Balvin_2018.jpg',albums:[
+    {id:201,title:'Colores',year:2020,emoji:'🌈',price:18,hot:true,image:''},
+    {id:202,title:'Vibras',year:2018,emoji:'⚡',price:17,image:''},
+    {id:203,title:'Energía',year:2016,emoji:'🔥',price:17,image:''},
   ]},
-  {id:3,name:'Daddy Yankee',genre:'reggaeton',emoji:'👑',photo:'https://static.wikia.nocookie.net/esmusic/images/3/38/Daddy_Yankee.jpg/revision/latest/thumbnail/width/360/height/450?cb=20171127224755',albums:[
-    {id:301,title:'Barrio Fino',year:2004,emoji:'👑',price:18,hot:true},
-    {id:302,title:'El Cartel: The Big Boss',year:2007,emoji:'🔊',price:17},
-    {id:303,title:'Legendaddy',year:2022,emoji:'🏆',price:19,new:true},
+  {id:3,name:'Daddy Yankee',genre:'reggaeton',emoji:'👑',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Daddy_Yankee_2019_cropped.jpg/480px-Daddy_Yankee_2019_cropped.jpg',albums:[
+    {id:301,title:'Barrio Fino',year:2004,emoji:'👑',price:18,hot:true,image:''},
+    {id:302,title:'El Cartel: The Big Boss',year:2007,emoji:'🔊',price:17,image:''},
+    {id:303,title:'Legendaddy',year:2022,emoji:'🏆',price:19,new:true,image:''},
   ]},
-  {id:4,name:'Ozuna',genre:'reggaeton',emoji:'🌙',photo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv09_PLwXKVae-tLtYHdzb7_DWvJE9qllJ2nZalqcWsEjY2zWfOgVvxYY&s=10',albums:[
-    {id:401,title:'Odisea',year:2017,emoji:'🌙',price:17},
-    {id:402,title:'Aura',year:2018,emoji:'✨',price:17},
-    {id:403,title:'El Malo',year:2016,emoji:'😈',price:16},
+  {id:4,name:'Ozuna',genre:'reggaeton',emoji:'🌙',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Ozuna_2018.jpg/480px-Ozuna_2018.jpg',albums:[
+    {id:401,title:'Odisea',year:2017,emoji:'🌙',price:17,image:''},
+    {id:402,title:'Aura',year:2018,emoji:'✨',price:17,image:''},
+    {id:403,title:'El Malo',year:2016,emoji:'😈',price:16,image:''},
   ]},
-  {id:5,name:'Rauw Alejandro',genre:'reggaeton',emoji:'🚀',photo:'https://i.pinimg.com/736x/45/a5/8c/45a58c6b21a6fbef403bf75d509eff2a.jpg',albums:[
-    {id:501,title:'Vice Versa',year:2021,emoji:'🔄',price:18,new:true},
-    {id:502,title:'Saturno',year:2023,emoji:'🪐',price:19,hot:true},
-    {id:503,title:'Afrodisíaco',year:2020,emoji:'🌴',price:17},
+  {id:5,name:'Rauw Alejandro',genre:'reggaeton',emoji:'🚀',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Rauw_Alejandro_2022.jpg/480px-Rauw_Alejandro_2022.jpg',albums:[
+    {id:501,title:'Vice Versa',year:2021,emoji:'🔄',price:18,new:true,image:''},
+    {id:502,title:'Saturno',year:2023,emoji:'🪐',price:19,hot:true,image:''},
+    {id:503,title:'Afrodisíaco',year:2020,emoji:'🌴',price:17,image:''},
   ]},
-  {id:6,name:'Shakira',genre:'poplatino',emoji:'💃',photo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRldvWO6mb6-2VCDUkWsArmzmv-hRDEtsAsQPTTRyq57NcSI9EKGrV6b3w&s=10',albums:[
-    {id:601,title:'Laundry Service',year:2001,emoji:'💃',price:18,hot:true},
-    {id:602,title:'She Wolf',year:2009,emoji:'🐺',price:17},
-    {id:603,title:'Las de la Intuición',year:2005,emoji:'🌸',price:17},
-    {id:604,title:'Las Mujeres Ya No Lloran',year:2024,emoji:'💎',price:19,new:true},
+  {id:6,name:'Shakira',genre:'poplatino',emoji:'💃',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Shakira_-_2010.jpg/480px-Shakira_-_2010.jpg',albums:[
+    {id:601,title:'Laundry Service',year:2001,emoji:'💃',price:18,hot:true,image:''},
+    {id:602,title:'She Wolf',year:2009,emoji:'🐺',price:17,image:''},
+    {id:603,title:'Las de la Intuición',year:2005,emoji:'🌸',price:17,image:''},
+    {id:604,title:'Las Mujeres Ya No Lloran',year:2024,emoji:'💎',price:19,new:true,image:''},
   ]},
-  {id:7,name:'Maluma',genre:'poplatino',emoji:'🦋',photo:'https://www.billboard.com/wp-content/uploads/2026/05/maluma-met-gala-2026-billboard-1800.jpg?w=942&h=628&crop=1',albums:[
-    {id:701,title:'F.A.M.E.',year:2018,emoji:'⭐',price:17},
-    {id:702,title:'11:11',year:2019,emoji:'🕐',price:18,hot:true},
-    {id:703,title:'Papi Juancho',year:2020,emoji:'🦋',price:17},
+  {id:7,name:'Maluma',genre:'poplatino',emoji:'🦋',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Maluma_2018_%28cropped%29.jpg/480px-Maluma_2018_%28cropped%29.jpg',albums:[
+    {id:701,title:'F.A.M.E.',year:2018,emoji:'⭐',price:17,image:''},
+    {id:702,title:'11:11',year:2019,emoji:'🕐',price:18,hot:true,image:''},
+    {id:703,title:'Papi Juancho',year:2020,emoji:'🦋',price:17,image:''},
   ]},
-  {id:8,name:'Kali Uchis',genre:'poplatino',emoji:'🌺',photo:'https://cdn-images.dzcdn.net/images/artist/9d0d52af2e1e4ec56b67b495b87fc4c0/1900x1900-000000-80-0-0.jpg',albums:[
-    {id:801,title:'Isolation',year:2018,emoji:'🌺',price:18},
-    {id:802,title:'Sin Miedo',year:2020,emoji:'🌹',price:18,new:true},
-    {id:803,title:'Orquídeas',year:2024,emoji:'💜',price:19,hot:true},
+  {id:8,name:'Kali Uchis',genre:'poplatino',emoji:'🌺',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Kali_Uchis_2017.jpg/480px-Kali_Uchis_2017.jpg',albums:[
+    {id:801,title:'Isolation',year:2018,emoji:'🌺',price:18,image:''},
+    {id:802,title:'Sin Miedo',year:2020,emoji:'🌹',price:18,new:true,image:''},
+    {id:803,title:'Orquídeas',year:2024,emoji:'💜',price:19,hot:true,image:''},
   ]},
-  {id:9,name:'Karol G',genre:'poplatino',emoji:'🐱',photo:'https://www.billboard.com/wp-content/uploads/2023/06/karol-g-2023-cr-Leo-Arguello-billboard-espanol-1548.jpg',albums:[
-    {id:901,title:'Ocean',year:2019,emoji:'🌊',price:17},
-    {id:902,title:'KG0516',year:2021,emoji:'🐱',price:18},
-    {id:903,title:'Mañana Será Bonito',year:2023,emoji:'🌸',price:19,hot:true},
+  {id:9,name:'Karol G',genre:'poplatino',emoji:'🐱',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Karol_G_in_2022.jpg/480px-Karol_G_in_2022.jpg',albums:[
+    {id:901,title:'Ocean',year:2019,emoji:'🌊',price:17,image:''},
+    {id:902,title:'KG0516',year:2021,emoji:'🐱',price:18,image:''},
+    {id:903,title:'Mañana Será Bonito',year:2023,emoji:'🌸',price:19,hot:true,image:''},
   ]},
-  {id:10,name:'Nirvana',genre:'rock',emoji:'🌀',photo:'https://indiehoy.com/wp-content/uploads/2018/11/nirvana-640-logo.jpg',albums:[
-    {id:1001,title:'Nevermind',year:1991,emoji:'🌀',price:19,hot:true},
-    {id:1002,title:'In Utero',year:1993,emoji:'🎸',price:18},
-    {id:1003,title:'Bleach',year:1989,emoji:'🔊',price:17},
+  {id:10,name:'Nirvana',genre:'rock',emoji:'🌀',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/NirvanaO2AcademyBrixton.jpg/480px-NirvanaO2AcademyBrixton.jpg',albums:[
+    {id:1001,title:'Nevermind',year:1991,emoji:'🌀',price:19,hot:true,image:''},
+    {id:1002,title:'In Utero',year:1993,emoji:'🎸',price:18,image:''},
+    {id:1003,title:'Bleach',year:1989,emoji:'🔊',price:17,image:''},
   ]},
-  {id:11,name:'Arctic Monkeys',genre:'rock',emoji:'🐒',photo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQMc6XGuP65_4wlvcfBVLNIRTMzMWF1kHtup-jikbjcaIvNlh8QNrchpQz&s=10',albums:[
-    {id:1101,title:'AM',year:2013,emoji:'🌙',price:19,hot:true},
-    {id:1102,title:'Whatever People Say I Am',year:2006,emoji:'🚬',price:18},
-    {id:1103,title:'Tranquility Base Hotel',year:2018,emoji:'🚀',price:18},
-    {id:1104,title:'The Car',year:2022,emoji:'🚗',price:18,new:true},
+  {id:11,name:'Arctic Monkeys',genre:'rock',emoji:'🐒',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Arctic_Monkeys_performing_at_iTunes_Festival_2013_%28cropped%29.jpg/480px-Arctic_Monkeys_performing_at_iTunes_Festival_2013_%28cropped%29.jpg',albums:[
+    {id:1101,title:'AM',year:2013,emoji:'🌙',price:19,hot:true,image:''},
+    {id:1102,title:'Whatever People Say I Am',year:2006,emoji:'🚬',price:18,image:''},
+    {id:1103,title:'Tranquility Base Hotel',year:2018,emoji:'🚀',price:18,image:''},
+    {id:1104,title:'The Car',year:2022,emoji:'🚗',price:18,new:true,image:''},
   ]},
-  {id:12,name:'Foo Fighters',genre:'rock',emoji:'🦅',photo:'https://cdn-p.smehost.net/sites/005297e5d91d4996984e966fac4389ea/wp-content/uploads/2018/01/71ee7a892609a8cb9d9d94a175adc262-1024x666.jpg',albums:[
-    {id:1201,title:'The Colour and the Shape',year:1997,emoji:'🎨',price:18},
-    {id:1202,title:'There Is Nothing Left to Lose',year:1999,emoji:'🦅',price:17},
-    {id:1203,title:'Wasting Light',year:2011,emoji:'💡',price:18,hot:true},
+  {id:12,name:'Foo Fighters',genre:'rock',emoji:'🦅',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Foo_Fighters_-_Rock_in_Rio_2019_%28cropped%29.jpg/480px-Foo_Fighters_-_Rock_in_Rio_2019_%28cropped%29.jpg',albums:[
+    {id:1201,title:'The Colour and the Shape',year:1997,emoji:'🎨',price:18,image:''},
+    {id:1202,title:'There Is Nothing Left to Lose',year:1999,emoji:'🦅',price:17,image:''},
+    {id:1203,title:'Wasting Light',year:2011,emoji:'💡',price:18,hot:true,image:''},
   ]},
-  {id:13,name:'Radiohead',genre:'rock',emoji:'👁️',photo:'https://m.media-amazon.com/images/M/MV5BZmU1OGNmZjMtY2ZlZi00YTI3LTk2ODctYjg1YjYyMDNmZTc0XkEyXkFqcGc@._V1_.jpg',albums:[
-    {id:1301,title:'OK Computer',year:1997,emoji:'💻',price:19,hot:true},
-    {id:1302,title:'Kid A',year:2000,emoji:'👁️',price:19},
-    {id:1303,title:'The Bends',year:1995,emoji:'🌊',price:18},
+  {id:13,name:'Radiohead',genre:'rock',emoji:'👁️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Radiohead_in_Buenos_Aires_2018_%28cropped%29.jpg/480px-Radiohead_in_Buenos_Aires_2018_%28cropped%29.jpg',albums:[
+    {id:1301,title:'OK Computer',year:1997,emoji:'💻',price:19,hot:true,image:''},
+    {id:1302,title:'Kid A',year:2000,emoji:'👁️',price:19,image:''},
+    {id:1303,title:'The Bends',year:1995,emoji:'🌊',price:18,image:''},
   ]},
-  {id:14,name:'BTS',genre:'kpop',emoji:'💜',photo:'https://i.pinimg.com/474x/dc/6f/eb/dc6feb573e214d3255d6c8fa3e0d3c1e.jpg',albums:[
-    {id:1401,title:'Map of the Soul: 7',year:2020,emoji:'🗺️',price:19,hot:true},
-    {id:1402,title:'Love Yourself: Answer',year:2018,emoji:'💜',price:19},
-    {id:1403,title:'BE',year:2020,emoji:'🌙',price:18},
-    {id:1404,title:'Butter',year:2021,emoji:'🧈',price:18,new:true},
+  {id:14,name:'BTS',genre:'kpop',emoji:'💜',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/BTS_at_the_2019_Billboard_Music_Awards_%28cropped%29.jpg/480px-BTS_at_the_2019_Billboard_Music_Awards_%28cropped%29.jpg',albums:[
+    {id:1401,title:'Map of the Soul: 7',year:2020,emoji:'🗺️',price:19,hot:true,image:''},
+    {id:1402,title:'Love Yourself: Answer',year:2018,emoji:'💜',price:19,image:''},
+    {id:1403,title:'BE',year:2020,emoji:'🌙',price:18,image:''},
+    {id:1404,title:'Butter',year:2021,emoji:'🧈',price:18,new:true,image:''},
   ]},
-  {id:15,name:'BLACKPINK',genre:'kpop',emoji:'🖤',photo:'https://i.pinimg.com/736x/2f/f0/02/2ff002e1c95131eca6f0e568642b3515.jpg',albums:[
-    {id:1501,title:'BORN PINK',year:2022,emoji:'🖤',price:19,hot:true},
-    {id:1502,title:'THE ALBUM',year:2020,emoji:'💗',price:18},
-    {id:1503,title:'SQUARE UP',year:2018,emoji:'⬆️',price:17},
+  {id:15,name:'BLACKPINK',genre:'kpop',emoji:'🖤',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Blackpink_at_the_2019_MTV_VMAs_4_%28cropped%29.jpg/480px-Blackpink_at_the_2019_MTV_VMAs_4_%28cropped%29.jpg',albums:[
+    {id:1501,title:'BORN PINK',year:2022,emoji:'🖤',price:19,hot:true,image:''},
+    {id:1502,title:'THE ALBUM',year:2020,emoji:'💗',price:18,image:''},
+    {id:1503,title:'SQUARE UP',year:2018,emoji:'⬆️',price:17,image:''},
   ]},
-  {id:16,name:'Stray Kids',genre:'kpop',emoji:'🐺',photo:'https://i.pinimg.com/736x/d7/50/4a/d7504a6000faa6c950d0f3d410410da2.jpg',albums:[
-    {id:1601,title:'MAXIDENT',year:2022,emoji:'🔐',price:18,new:true},
-    {id:1602,title:'Oddinary',year:2022,emoji:'🌀',price:18},
-    {id:1603,title:'5-STAR',year:2023,emoji:'⭐',price:19,hot:true},
+  {id:16,name:'Stray Kids',genre:'kpop',emoji:'🐺',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Stray_Kids_at_KCON_2022_LA_%28cropped%29.jpg/480px-Stray_Kids_at_KCON_2022_LA_%28cropped%29.jpg',albums:[
+    {id:1601,title:'MAXIDENT',year:2022,emoji:'🔐',price:18,new:true,image:''},
+    {id:1602,title:'Oddinary',year:2022,emoji:'🌀',price:18,image:''},
+    {id:1603,title:'5-STAR',year:2023,emoji:'⭐',price:19,hot:true,image:''},
   ]},
-  {id:17,name:'aespa',genre:'kpop',emoji:'🤖',photo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj_7_S3f5Bp_mf5LiEE6zRQfmL8Yv_umcnnyUhb3pk_P6uKzhx2EXDgGy0&s=10',albums:[
-    {id:1701,title:'My World',year:2023,emoji:'🌐',price:18,hot:true},
-    {id:1702,title:'Girls',year:2022,emoji:'💫',price:17},
-    {id:1703,title:'Drama',year:2023,emoji:'🎭',price:18,new:true},
+  {id:17,name:'aespa',genre:'kpop',emoji:'🤖',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Aespa_at_the_2022_MTV_VMAs_%28cropped%29.jpg/480px-Aespa_at_the_2022_MTV_VMAs_%28cropped%29.jpg',albums:[
+    {id:1701,title:'My World',year:2023,emoji:'🌐',price:18,hot:true,image:''},
+    {id:1702,title:'Girls',year:2022,emoji:'💫',price:17,image:''},
+    {id:1703,title:'Drama',year:2023,emoji:'🎭',price:18,new:true,image:''},
   ]},
-  {id:18,name:'Daft Punk',genre:'electronica',emoji:'🤖',photo:'https://i0.wp.com/clunkmag.com/wp-content/uploads/2021/03/Daft-Punk.jpeg?fit=640%2C640',albums:[
-    {id:1801,title:'Random Access Memories',year:2013,emoji:'💿',price:20,hot:true},
-    {id:1802,title:'Discovery',year:2001,emoji:'🤖',price:19},
-    {id:1803,title:'Homework',year:1997,emoji:'⚡',price:18},
+  {id:18,name:'Daft Punk',genre:'electronica',emoji:'🤖',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Daft_Punk_-_NRJ_Music_Awards_2014.jpg/480px-Daft_Punk_-_NRJ_Music_Awards_2014.jpg',albums:[
+    {id:1801,title:'Random Access Memories',year:2013,emoji:'💿',price:20,hot:true,image:''},
+    {id:1802,title:'Discovery',year:2001,emoji:'🤖',price:19,image:''},
+    {id:1803,title:'Homework',year:1997,emoji:'⚡',price:18,image:''},
   ]},
-  {id:19,name:'Calvin Harris',genre:'electronica',emoji:'🎛️',photo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKlzBxPfp43V7iG-ECrVt2Jzwpzyees3d2NPkX7H38ssiv4adwJf3dixu5&s=10',albums:[
-    {id:1901,title:'Motion',year:2014,emoji:'🎛️',price:17},
-    {id:1902,title:'Funk Wav Bounces Vol. 1',year:2017,emoji:'🌊',price:18,hot:true},
-    {id:1903,title:'Funk Wav Bounces Vol. 2',year:2022,emoji:'🎆',price:18,new:true},
+  {id:19,name:'Calvin Harris',genre:'electronica',emoji:'🎛️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Calvin_Harris_2019_%28cropped%29.jpg/480px-Calvin_Harris_2019_%28cropped%29.jpg',albums:[
+    {id:1901,title:'Motion',year:2014,emoji:'🎛️',price:17,image:''},
+    {id:1902,title:'Funk Wav Bounces Vol. 1',year:2017,emoji:'🌊',price:18,hot:true,image:''},
+    {id:1903,title:'Funk Wav Bounces Vol. 2',year:2022,emoji:'🎆',price:18,new:true,image:''},
   ]},
-  {id:20,name:'The Weeknd',genre:'electronica',emoji:'🌃',photo:'https://static.wikia.nocookie.net/taylor-swift/images/3/3f/The_Weeknd_1.jpg/revision/latest?cb=20250608131114',albums:[
-    {id:2001,title:'After Hours',year:2020,emoji:'🩸',price:19,hot:true},
-    {id:2002,title:'Starboy',year:2016,emoji:'⭐',price:18},
-    {id:2003,title:'Dawn FM',year:2022,emoji:'📻',price:19,new:true},
+  {id:20,name:'The Weeknd',genre:'electronica',emoji:'🌃',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/The_Weeknd_-_Openair_Frauenfeld_2018_%28cropped%29.jpg/480px-The_Weeknd_-_Openair_Frauenfeld_2018_%28cropped%29.jpg',albums:[
+    {id:2001,title:'After Hours',year:2020,emoji:'🩸',price:19,hot:true,image:''},
+    {id:2002,title:'Starboy',year:2016,emoji:'⭐',price:18,image:''},
+    {id:2003,title:'Dawn FM',year:2022,emoji:'📻',price:19,new:true,image:''},
   ]},
-  {id:21,name:'Martin Garrix',genre:'electronica',emoji:'🦁',photo:'https://i.scdn.co/image/ab6761610000e5ebf5b8ee60f1f4ee3453aba40b',albums:[
-    {id:2101,title:'7',year:2019,emoji:'7️⃣',price:17},
-    {id:2102,title:'Sentio',year:2022,emoji:'🦁',price:18,hot:true},
+  {id:21,name:'Martin Garrix',genre:'electronica',emoji:'🦁',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Martin_Garrix_Tomorrowland_2019_%28cropped%29.jpg/480px-Martin_Garrix_Tomorrowland_2019_%28cropped%29.jpg',albums:[
+    {id:2101,title:'7',year:2019,emoji:'7️⃣',price:17,image:''},
+    {id:2102,title:'Sentio',year:2022,emoji:'🦁',price:18,hot:true,image:''},
   ]},
-  {id:22,name:'Peso Pluma',genre:'regional',emoji:'🪶',photo:'https://media.vogue.mx/photos/6618d373774b61c9c0150ef4/2:3/w_2560%2Cc_limit/peso-pluma-biografia.jpg',albums:[
-    {id:2201,title:'Hassan',year:2023,emoji:'🪶',price:19,hot:true},
-    {id:2202,title:'Génesis',year:2023,emoji:'🌅',price:19,new:true},
-    {id:2203,title:'Ah Y Qué?',year:2022,emoji:'🎸',price:17},
+  {id:22,name:'Peso Pluma',genre:'regional',emoji:'🪶',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Peso_Pluma_2023_%28cropped%29.jpg/480px-Peso_Pluma_2023_%28cropped%29.jpg',albums:[
+    {id:2201,title:'Hassan',year:2023,emoji:'🪶',price:19,hot:true,image:''},
+    {id:2202,title:'Génesis',year:2023,emoji:'🌅',price:19,new:true,image:''},
+    {id:2203,title:'Ah Y Qué?',year:2022,emoji:'🎸',price:17,image:''},
   ]},
-  {id:23,name:'Natanael Cano',genre:'regional',emoji:'🎻',photo:'https://i.scdn.co/image/ab6761610000e5eb0d4838ef7ef6c0f889266f60',albums:[
-    {id:2301,title:'Trap Tumbado',year:2020,emoji:'🎻',price:17},
-    {id:2302,title:'El de la Noria',year:2021,emoji:'🌵',price:17},
-    {id:2303,title:'Corridos Tumbados Vol. 1',year:2022,emoji:'🔥',price:18,hot:true},
+  {id:23,name:'Natanael Cano',genre:'regional',emoji:'🎻',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Natanael_Cano_2022_%28cropped%29.jpg/480px-Natanael_Cano_2022_%28cropped%29.jpg',albums:[
+    {id:2301,title:'Trap Tumbado',year:2020,emoji:'🎻',price:17,image:''},
+    {id:2302,title:'El de la Noria',year:2021,emoji:'🌵',price:17,image:''},
+    {id:2303,title:'Corridos Tumbados Vol. 1',year:2022,emoji:'🔥',price:18,hot:true,image:''},
   ]},
-  {id:24,name:'Grupo Frontera',genre:'regional',emoji:'🌵',photo:'https://i1.sndcdn.com/avatars-aM5zF1nEMmlQGR3y-BE4MrQ-t1080x1080.jpg',albums:[
-    {id:2401,title:'Jugaste y Sufrí',year:2023,emoji:'🤠',price:17,hot:true},
-    {id:2402,title:'El Comienzo',year:2022,emoji:'🌵',price:16,new:true},
+  {id:24,name:'Grupo Frontera',genre:'regional',emoji:'🌵',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Grupo_Frontera_2023_%28cropped%29.jpg/480px-Grupo_Frontera_2023_%28cropped%29.jpg',albums:[
+    {id:2401,title:'Jugaste y Sufrí',year:2023,emoji:'🤠',price:17,hot:true,image:''},
+    {id:2402,title:'El Comienzo',year:2022,emoji:'🌵',price:16,new:true,image:''},
   ]},
-  {id:25,name:'Eslabón Armado',genre:'regional',emoji:'⛓️',photo:'https://i1.sndcdn.com/avatars-kExaYPAtuv8hP0gC-cZ8PdQ-t1080x1080.jpg',albums:[
-    {id:2501,title:'Tu Veneno Mortal',year:2022,emoji:'☠️',price:17,hot:true},
-    {id:2502,title:'Nostalgia',year:2021,emoji:'🌙',price:16},
-    {id:2503,title:'El Futuro Ex',year:2023,emoji:'💔',price:17,new:true},
+  {id:25,name:'Eslabón Armado',genre:'regional',emoji:'⛓️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Eslabón_Armado_2023_%28cropped%29.jpg/480px-Eslabón_Armado_2023_%28cropped%29.jpg',albums:[
+    {id:2501,title:'Tu Veneno Mortal',year:2022,emoji:'☠️',price:17,hot:true,image:''},
+    {id:2502,title:'Nostalgia',year:2021,emoji:'🌙',price:16,image:''},
+    {id:2503,title:'El Futuro Ex',year:2023,emoji:'💔',price:17,new:true,image:''},
   ]},
-  {id:26,name:'Beyoncé',genre:'poprnb',emoji:'👑',photo:'https://image.tmdb.org/t/p/w500/2HbjNtiCtmbArEnELuDFU7knaVK.jpg',albums:[
-    {id:2601,title:'Lemonade',year:2016,emoji:'🍋',price:19,hot:true},
-    {id:2602,title:'Renaissance',year:2022,emoji:'💫',price:20,new:true},
-    {id:2603,title:'Dangerously in Love',year:2003,emoji:'❤️',price:17},
-    {id:2604,title:'Cowboy Carter',year:2024,emoji:'🤠',price:19,hot:true},
+  {id:26,name:'Beyoncé',genre:'poprnb',emoji:'👑',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Beyonc%C3%A9_at_The_Formation_World_Tour%2C_cropped.jpg/480px-Beyonc%C3%A9_at_The_Formation_World_Tour%2C_cropped.jpg',albums:[
+    {id:2601,title:'Lemonade',year:2016,emoji:'🍋',price:19,hot:true,image:''},
+    {id:2602,title:'Renaissance',year:2022,emoji:'💫',price:20,new:true,image:''},
+    {id:2603,title:'Dangerously in Love',year:2003,emoji:'❤️',price:17,image:''},
+    {id:2604,title:'Cowboy Carter',year:2024,emoji:'🤠',price:19,hot:true,image:''},
   ]},
-  {id:27,name:'Ariana Grande',genre:'poprnb',emoji:'🍩',photo:'https://media.vogue.es/photos/6499738d8126b601af216927/2:3/w_2560%2Cc_limit/GettyImages-1202825234%2520(1).jpg',albums:[
-    {id:2701,title:'Thank U, Next',year:2019,emoji:'💅',price:18,hot:true},
-    {id:2702,title:'Positions',year:2020,emoji:'🌙',price:18},
-    {id:2703,title:'Sweetener',year:2018,emoji:'🍬',price:17},
-    {id:2704,title:'eternal sunshine',year:2024,emoji:'☀️',price:19,new:true},
+  {id:27,name:'Ariana Grande',genre:'poprnb',emoji:'🍩',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Ariana_Grande_2019_by_Glenn_Francis_%28cropped%29.jpg/480px-Ariana_Grande_2019_by_Glenn_Francis_%28cropped%29.jpg',albums:[
+    {id:2701,title:'Thank U, Next',year:2019,emoji:'💅',price:18,hot:true,image:''},
+    {id:2702,title:'Positions',year:2020,emoji:'🌙',price:18,image:''},
+    {id:2703,title:'Sweetener',year:2018,emoji:'🍬',price:17,image:''},
+    {id:2704,title:'eternal sunshine',year:2024,emoji:'☀️',price:19,new:true,image:''},
   ]},
-  {id:28,name:'SZA',genre:'poprnb',emoji:'🌙',photo:'https://i.guim.co.uk/img/media/3c219bec8b787ce88c5c05b7089bd2a828e7be81/926_1268_3501_4376/master/3501.jpg?width=480&dpr=1&s=none&crop=none',albums:[
-    {id:2801,title:'SOS',year:2022,emoji:'🆘',price:19,hot:true},
-    {id:2802,title:'Ctrl',year:2017,emoji:'🎛️',price:18},
-    {id:2803,title:'Good Days',year:2021,emoji:'🌸',price:17,new:true},
+  {id:28,name:'SZA',genre:'poprnb',emoji:'🌙',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/SZA_2018_%28cropped%29.jpg/480px-SZA_2018_%28cropped%29.jpg',albums:[
+    {id:2801,title:'SOS',year:2022,emoji:'🆘',price:19,hot:true,image:''},
+    {id:2802,title:'Ctrl',year:2017,emoji:'🎛️',price:18,image:''},
+    {id:2803,title:'Good Days',year:2021,emoji:'🌸',price:17,new:true,image:''},
   ]},
-  {id:29,name:'Dua Lipa',genre:'poprnb',emoji:'💋',photo:'https://m.media-amazon.com/images/M/MV5BYmRjM2RlZjItMDZhNS00MTM2LThiZDUtZDQxMmVjYjQ2ZmM4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg',albums:[
-    {id:2901,title:'Future Nostalgia',year:2020,emoji:'🕺',price:19,hot:true},
-    {id:2902,title:'Radical Optimism',year:2024,emoji:'✨',price:19,new:true},
-    {id:2903,title:'Dua Lipa',year:2017,emoji:'💋',price:16},
+  {id:29,name:'Dua Lipa',genre:'poprnb',emoji:'💋',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/190616-dua-lipa-se-135p_02cf8e4c35a7fd04bdbb7604d5e0e812.jpg/480px-190616-dua-lipa-se-135p_02cf8e4c35a7fd04bdbb7604d5e0e812.jpg',albums:[
+    {id:2901,title:'Future Nostalgia',year:2020,emoji:'🕺',price:19,hot:true,image:''},
+    {id:2902,title:'Radical Optimism',year:2024,emoji:'✨',price:19,new:true,image:''},
+    {id:2903,title:'Dua Lipa',year:2017,emoji:'💋',price:16,image:''},
   ]},
-  {id:30,name:'Anuel AA',genre:'traplatino',emoji:'👁️',photo:'https://i.scdn.co/image/ab6761610000e5eba23ceb177745632b517cb7b2',albums:[
-    {id:3001,title:'Real Hasta la Muerte',year:2018,emoji:'💀',price:17,hot:true},
-    {id:3002,title:'Emmanuel',year:2020,emoji:'😇',price:18},
-    {id:3003,title:'Las Leyendas Nunca Mueren',year:2021,emoji:'👁️',price:17},
+  {id:30,name:'Anuel AA',genre:'traplatino',emoji:'👁️',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Anuel_AA_2019_%28cropped%29.jpg/480px-Anuel_AA_2019_%28cropped%29.jpg',albums:[
+    {id:3001,title:'Real Hasta la Muerte',year:2018,emoji:'💀',price:17,hot:true,image:''},
+    {id:3002,title:'Emmanuel',year:2020,emoji:'😇',price:18,image:''},
+    {id:3003,title:'Las Leyendas Nunca Mueren',year:2021,emoji:'👁️',price:17,image:''},
   ]},
-  {id:31,name:'Myke Towers',genre:'traplatino',emoji:'🗼',photo:'https://static01.nyt.com/images/2023/03/28/multimedia/22MYKE-TOWERS-01-pcjl/22MYKE-TOWERS-01-pcjl-articleLarge.jpg?quality=75&auto=webp&disable=upscale',albums:[
-    {id:3101,title:'Easy Money Baby',year:2021,emoji:'💰',price:17,hot:true},
-    {id:3102,title:'LYKE MIKE',year:2020,emoji:'🗼',price:16},
-    {id:3103,title:'El Final Del Principio',year:2022,emoji:'🌅',price:17,new:true},
+  {id:31,name:'Myke Towers',genre:'traplatino',emoji:'🗼',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Myke_Towers_2021_%28cropped%29.jpg/480px-Myke_Towers_2021_%28cropped%29.jpg',albums:[
+    {id:3101,title:'Easy Money Baby',year:2021,emoji:'💰',price:17,hot:true,image:''},
+    {id:3102,title:'LYKE MIKE',year:2020,emoji:'🗼',price:16,image:''},
+    {id:3103,title:'El Final Del Principio',year:2022,emoji:'🌅',price:17,new:true,image:''},
   ]},
-  {id:32,name:'Jhay Cortez',genre:'traplatino',emoji:'🌊',photo:'https://cloudfront-us-east-1.images.arcpublishing.com/eluniverso/FJ6FGV5MUBF4JLBXTDCWNSFT2E.jpg',albums:[
-    {id:3201,title:'Timelezz',year:2019,emoji:'⏳',price:17},
-    {id:3202,title:'El Amor y La Guerra',year:2022,emoji:'⚔️',price:18,hot:true},
-    {id:3203,title:'No Pare',year:2024,emoji:'🚀',price:18,new:true},
+  {id:32,name:'Jhay Cortez',genre:'traplatino',emoji:'🌊',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Jhay_Cortez_2021_%28cropped%29.jpg/480px-Jhay_Cortez_2021_%28cropped%29.jpg',albums:[
+    {id:3201,title:'Timelezz',year:2019,emoji:'⏳',price:17,image:''},
+    {id:3202,title:'El Amor y La Guerra',year:2022,emoji:'⚔️',price:18,hot:true,image:''},
+    {id:3203,title:'No Pare',year:2024,emoji:'🚀',price:18,new:true,image:''},
   ]},
-  {id:33,name:'Bryant Myers',genre:'traplatino',emoji:'🦅',photo:'https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da845676d4cd5b2c300affb86b29',albums:[
-    {id:3301,title:'Bendición',year:2018,emoji:'🙏',price:16},
-    {id:3302,title:'Snacks',year:2019,emoji:'🎯',price:16,hot:true},
-    {id:3303,title:'Jauría',year:2022,emoji:'🐺',price:17,new:true},
+  {id:33,name:'Bryant Myers',genre:'traplatino',emoji:'🦅',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Bryant_Myers_2019_%28cropped%29.jpg/480px-Bryant_Myers_2019_%28cropped%29.jpg',albums:[
+    {id:3301,title:'Bendición',year:2018,emoji:'🙏',price:16,image:''},
+    {id:3302,title:'Snacks',year:2019,emoji:'🎯',price:16,hot:true,image:''},
+    {id:3303,title:'Jauría',year:2022,emoji:'🐺',price:17,new:true,image:''},
   ]},
-  {id:34,name:'Kendrick Lamar',genre:'rapusuk',emoji:'🎤',photo:'https://mediaproxy.tvtropes.org/width/1200/https://static.tvtropes.org/pmwiki/pub/images/kendricklamar.png',albums:[
-    {id:3401,title:'To Pimp a Butterfly',year:2015,emoji:'🦋',price:19,hot:true},
-    {id:3402,title:'DAMN.',year:2017,emoji:'🔴',price:19},
-    {id:3403,title:'Mr. Morale & The Big Steppers',year:2022,emoji:'👑',price:19,new:true},
-    {id:3404,title:'GNX',year:2024,emoji:'🚗',price:20,hot:true},
+  {id:34,name:'Kendrick Lamar',genre:'rapusuk',emoji:'🎤',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Kendrick_Lamar_-_Coachella_2023_%28cropped%29.jpg/480px-Kendrick_Lamar_-_Coachella_2023_%28cropped%29.jpg',albums:[
+    {id:3401,title:'To Pimp a Butterfly',year:2015,emoji:'🦋',price:19,hot:true,image:''},
+    {id:3402,title:'DAMN.',year:2017,emoji:'🔴',price:19,image:''},
+    {id:3403,title:'Mr. Morale & The Big Steppers',year:2022,emoji:'👑',price:19,new:true,image:''},
+    {id:3404,title:'GNX',year:2024,emoji:'🚗',price:20,hot:true,image:''},
   ]},
-  {id:35,name:'Drake',genre:'rapusuk',emoji:'🦉',photo:'https://imageio.forbes.com/specials-images/imageserve/5ed578988b3c370006234c35/0x0.jpg?format=jpg&crop=1031,1031,x43,y49,safe&height=416&width=416&fit=bounds',albums:[
-    {id:3501,title:'Take Care',year:2011,emoji:'🥂',price:18,hot:true},
-    {id:3502,title:'Views',year:2016,emoji:'🗼',price:18},
-    {id:3503,title:'Certified Lover Boy',year:2021,emoji:'🌹',price:18},
-    {id:3504,title:'For All the Dogs',year:2023,emoji:'🐶',price:18,new:true},
+  {id:35,name:'Drake',genre:'rapusuk',emoji:'🦉',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Drake_July_2016.jpg/480px-Drake_July_2016.jpg',albums:[
+    {id:3501,title:'Take Care',year:2011,emoji:'🥂',price:18,hot:true,image:''},
+    {id:3502,title:'Views',year:2016,emoji:'🗼',price:18,image:''},
+    {id:3503,title:'Certified Lover Boy',year:2021,emoji:'🌹',price:18,image:''},
+    {id:3504,title:'For All the Dogs',year:2023,emoji:'🐶',price:18,new:true,image:''},
   ]},
-  {id:36,name:'Travis Scott',genre:'rapusuk',emoji:'🌵',photo:'https://static.wikia.nocookie.net/travisscott/images/e/e5/Travis_Scott.jpg/revision/latest?cb=20250316033409',albums:[
-    {id:3601,title:'Astroworld',year:2018,emoji:'🎡',price:20,hot:true},
-    {id:3602,title:'Rodeo',year:2015,emoji:'🤠',price:18},
-    {id:3603,title:'Birds in the Trap',year:2016,emoji:'🐦',price:17},
-    {id:3604,title:'UTOPIA',year:2023,emoji:'🌌',price:19,new:true},
+  {id:36,name:'Travis Scott',genre:'rapusuk',emoji:'🌵',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Travis_Scott_2021_%28cropped%29.jpg/480px-Travis_Scott_2021_%28cropped%29.jpg',albums:[
+    {id:3601,title:'Astroworld',year:2018,emoji:'🎡',price:20,hot:true,image:''},
+    {id:3602,title:'Rodeo',year:2015,emoji:'🤠',price:18,image:''},
+    {id:3603,title:'Birds in the Trap',year:2016,emoji:'🐦',price:17,image:''},
+    {id:3604,title:'UTOPIA',year:2023,emoji:'🌌',price:19,new:true,image:''},
   ]},
-  {id:37,name:'J. Cole',genre:'rapusuk',emoji:'🌲',photo:'https://static.wikia.nocookie.net/hip-hop-music/images/4/4f/J._Cole2.jpg/revision/latest?cb=20240815024531',albums:[
-    {id:3701,title:'2014 Forest Hills Drive',year:2014,emoji:'🏠',price:19,hot:true},
-    {id:3702,title:'KOD',year:2018,emoji:'👁️',price:18},
-    {id:3703,title:'The Off-Season',year:2021,emoji:'🍂',price:18,new:true},
+  {id:37,name:'J. Cole',genre:'rapusuk',emoji:'🌲',photo:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/J._Cole_2016_%28cropped%29.jpg/480px-J._Cole_2016_%28cropped%29.jpg',albums:[
+    {id:3701,title:'2014 Forest Hills Drive',year:2014,emoji:'🏠',price:19,hot:true,image:''},
+    {id:3702,title:'KOD',year:2018,emoji:'👁️',price:18,image:''},
+    {id:3703,title:'The Off-Season',year:2021,emoji:'🍂',price:18,new:true,image:''},
   ]},
+
+  // ════════════════════════════════════════════════════════════════════════
+  // PARA AGREGAR UN NUEVO ARTISTA — copia este bloque y pégalo arriba de
+  // este comentario, ANTES del corchete de cierre del array:
+  // ════════════════════════════════════════════════════════════════════════
+  // {id:38, name:'Nombre del Artista', genre:'reggaeton',
+  //   emoji:'🎤',
+  //   photo:'imagenes/foto-artista.jpg',  // foto del artista para su tarjeta
+  //   albums:[
+  //     {id:3801, title:'Nombre del Álbum', year:2024, emoji:'🎵',
+  //      price:19, hot:true,              // quita hot:true o new:true si no aplica
+  //      image:'imagenes/cuadro-album.jpg'}, // foto real de tu cuadro
+  //     // agrega más álbumes copiando la línea de arriba
+  //   ]
+  // },
+  // GÉNEROS DISPONIBLES: reggaeton | poplatino | rock | kpop | electronica
+  //                      regional  | poprnb    | traplatino | rapusuk
+  // IMPORTANTE: el id del artista y de cada álbum deben ser únicos
+  // ════════════════════════════════════════════════════════════════════════
 ];
 
 // ─── 10 FEATURED albums (one per genre + one extra) ───
@@ -1105,8 +1134,13 @@ function cardHTML(p, i, clickFn){
     ${p.hot?'<span class="card-badge badge-hot">🔥 Hot</span>':''}
     <span class="card-a4">A4</span>
     <div class="card-img-box" style="background:${genreGradient(p.genre)}">
-      <span style="font-size:3.5rem">${p.emoji}</span>
-      <span style="font-size:1rem;font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;color:rgba(255,255,255,0.65);padding:0 0.5rem;text-align:center">${p.title}</span>
+      ${p.image
+        ? `<img src="${p.image}" alt="${p.title}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:0;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        : ''}
+      <div style="${p.image?'display:none;':''}flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;width:100%;height:100%">
+        <span style="font-size:3.5rem">${p.emoji}</span>
+        <span style="font-size:1rem;font-family:'Bebas Neue',sans-serif;letter-spacing:0.08em;color:rgba(255,255,255,0.65);padding:0 0.5rem;text-align:center">${p.title}</span>
+      </div>
     </div>
     <div class="card-body">
       <div class="card-genre" style="color:${genreAccent(p.genre)}">${genres.find(g=>g.id===p.genre)?.label||p.genre}</div>
