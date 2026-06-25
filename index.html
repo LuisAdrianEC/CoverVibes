@@ -545,12 +545,6 @@
     /* ── POPUP (ocultar en móvil) ── */
     .card-popup{display:none;}
 
-    /* ── YOUTUBE PLAYER ── */
-    #ytMusicPlayer{
-      right:0.75rem;
-      bottom:5.5rem;
-    }
-
     /* ── WHATSAPP ── */
     .whatsapp-float{bottom:4.75rem;left:0.75rem;width:40px;height:40px;font-size:1rem;}
     .wa-tooltip{left:3.5rem;bottom:4.9rem;max-width:170px;font-size:0.7rem;}
@@ -1537,58 +1531,102 @@ renderFeatured();
 updateCartUI();
 </script>
 
-<!-- ── YOUTUBE MUSIC PLAYER ── -->
-<div id="ytMusicPlayer" style="
-  position:fixed;bottom:1.5rem;right:1.5rem;z-index:800;
-  background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);
-  border:1px solid rgba(255,102,0,0.3);border-radius:14px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.5);
-  overflow:hidden;width:220px;
-  transition:all 0.35s cubic-bezier(0.34,1.2,0.64,1);
-">
-  <!-- Pill siempre visible -->
-  <div onclick="toggleYTPlayer()" style="
-    display:flex;align-items:center;gap:0.5rem;
-    padding:0.45rem 0.9rem;cursor:pointer;
-  ">
-    <span style="color:#FF5500;font-size:0.85rem;">♪</span>
-    <span style="font-family:'Bebas Neue',sans-serif;font-size:0.9rem;letter-spacing:0.08em;color:#fff;">Música</span>
-    <div id="ytBars" style="display:flex;align-items:flex-end;gap:2px;height:12px;">
-      <span style="display:block;width:2px;background:#FF5500;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0s;height:4px"></span>
-      <span style="display:block;width:2px;background:#FF5500;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.15s;height:9px"></span>
-      <span style="display:block;width:2px;background:#FF5500;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.3s;height:6px"></span>
-      <span style="display:block;width:2px;background:#FF5500;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.1s;height:10px"></span>
-      <span style="display:block;width:2px;background:#FF5500;border-radius:2px;animation:bar-bounce 0.8s ease-in-out infinite;animation-delay:0.25s;height:4px"></span>
-    </div>
-    <span id="ytToggleIcon" style="color:#6B7280;font-size:0.7rem;margin-left:auto;">▲</span>
-  </div>
+<!-- ── SOUNDCLOUD MUSIC PLAYER ── -->
+<style>
+  #scBtn{
+    position:fixed;
+    left:0;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:900;
+    width:36px;
+    height:64px;
+    background:linear-gradient(135deg,#FF5500,#ff7a00);
+    border-radius:0 12px 12px 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    cursor:pointer;
+    box-shadow:3px 0 16px rgba(255,85,0,0.45);
+    border:none;
+    transition:width 0.2s;
+  }
+  #scBtn:hover{width:40px;}
+  #scBtn svg{width:18px;height:18px;fill:#fff;flex-shrink:0;}
+  #scArrow{font-size:0.65rem;color:rgba(255,255,255,0.85);line-height:1;}
 
-  <!-- Player expandible (oculto por defecto) -->
-  <div id="ytEmbedWrap" style="display:none;">
-    <iframe
-      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/corlem/sets/free-download&color=%23FF5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&buying=false&sharing=false&download=false"
-      width="220" height="120"
-      frameborder="0"
-      allow="autoplay"
-      style="display:block;">
-    </iframe>
-  </div>
+  #scPanel{
+    position:fixed;
+    left:-240px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:899;
+    width:220px;
+    background:rgba(10,10,10,0.95);
+    backdrop-filter:blur(16px);
+    border:1px solid rgba(255,85,0,0.35);
+    border-radius:0 14px 14px 0;
+    box-shadow:4px 0 24px rgba(0,0,0,0.5);
+    overflow:hidden;
+    transition:left 0.35s cubic-bezier(0.34,1.1,0.64,1);
+    padding-left:36px; /* espacio para el botón */
+  }
+  #scPanel.open{left:0;}
+
+  /* En móvil: lo bajamos un poco para que no tape nada */
+  @media(max-width:640px){
+    #scBtn{top:40%;transform:translateY(-40%);}
+    #scPanel{top:40%;transform:translateY(-40%);}
+  }
+</style>
+
+<!-- Botón pestaña izquierda -->
+<button id="scBtn" onclick="toggleSC()" aria-label="Abrir reproductor de música">
+  <!-- Ícono de nota musical -->
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>
+  </svg>
+  <span id="scArrow">▶</span>
+</button>
+
+<!-- Panel SoundCloud -->
+<div id="scPanel">
+  <iframe
+    id="scIframe"
+    src=""
+    data-src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/corlem/sets/free-download&color=%23FF5500&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&buying=false&sharing=false&download=false"
+    width="220"
+    height="120"
+    frameborder="0"
+    allow="autoplay"
+    style="display:block;">
+  </iframe>
 </div>
 
 <script>
-let ytOpen = false;
+let scOpen = false;
+let scLoaded = false;
 
-function toggleYTPlayer(){
-  const wrap = document.getElementById('ytEmbedWrap');
-  const icon = document.getElementById('ytToggleIcon');
-  const player = document.getElementById('ytMusicPlayer');
-  ytOpen = !ytOpen;
-  if(ytOpen){
-    wrap.style.display = 'block';
-    icon.textContent = '▼';
+function toggleSC(){
+  const panel = document.getElementById('scPanel');
+  const arrow = document.getElementById('scArrow');
+  const iframe = document.getElementById('scIframe');
+
+  scOpen = !scOpen;
+
+  if(scOpen){
+    // Carga el iframe solo la primera vez que se abre
+    if(!scLoaded){
+      iframe.src = iframe.getAttribute('data-src');
+      scLoaded = true;
+    }
+    panel.classList.add('open');
+    arrow.textContent = '◀';
   } else {
-    wrap.style.display = 'none';
-    icon.textContent = '▲';
+    panel.classList.remove('open');
+    arrow.textContent = '▶';
   }
 }
 </script>
