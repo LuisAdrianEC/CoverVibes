@@ -1461,18 +1461,50 @@ function updateCartUI(){
     footer.style.display='none';return;
   }
   footer.style.display='block';
-  container.innerHTML=cart.map(i=>`
+
+  const qty = cart.length;
+  const pairs = Math.floor(qty/2);
+  const singles = qty%2;
+  const total = pairs*15 + singles*8;
+
+  container.innerHTML=cart.map((i,idx)=>{
+    // Cada par de cuadros sale a $7.50 c/u, los sueltos a $8
+    const inPair = idx < pairs*2;
+    const priceLabel = inPair
+      ? `<span style="color:#4ade80">$7.50</span> <span style="font-size:0.7rem;color:rgba(255,255,255,0.4)">(promo 2x$15)</span>`
+      : `$8.00`;
+    return `
     <div class="cart-item">
       <div class="cart-item-img">${i.emoji}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${i.title}</div>
         <div class="cart-item-artist">${i.artist} · A4</div>
-        <div class="cart-item-price">$5.00</div>
+        <div class="cart-item-price">${priceLabel}</div>
       </div>
       <button class="cart-item-remove" onclick="removeFromCart(${i.id})">🗑</button>
-    </div>
-  `).join('');
-  document.getElementById('cartTotal').textContent=`$${cart.length * 5}.00`;
+    </div>`;
+  }).join('');
+
+  // Mostrar total con nota de promo si aplica
+  const totalEl = document.getElementById('cartTotal');
+  totalEl.textContent=`$${total}.00`;
+  
+  // Nota de promo debajo del total
+  let promoNote = document.getElementById('cartPromoNote');
+  if(!promoNote){
+    promoNote = document.createElement('div');
+    promoNote.id = 'cartPromoNote';
+    promoNote.style.cssText='font-size:0.72rem;color:#4ade80;text-align:right;margin-top:0.2rem;';
+    totalEl.parentElement.appendChild(promoNote);
+  }
+  if(pairs>0){
+    promoNote.textContent=`🔥 Promo aplicada: ${pairs} par${pairs>1?'es':''} × $15`;
+  } else if(qty===1){
+    promoNote.textContent='💡 Agrega 1 más y paga solo $15 los dos';
+    promoNote.style.color='#FFD700';
+  } else {
+    promoNote.textContent='';
+  }
 }
 function toggleCart(){
   const ov=document.getElementById('cartOverlay');
