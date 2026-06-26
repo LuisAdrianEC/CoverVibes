@@ -1396,7 +1396,7 @@ function renderArtistsGrid(){
         : `<div class="artist-card-fallback">${a.emoji}</div>`}
       <div class="artist-card-gradient"></div>
       <div class="artist-card-info">
-        <div class="artist-card-rank" style="color:${acc}">#${rankNum} · ${country.name.toUpperCase()}</div>
+
         <div class="artist-card-name">${a.name}</div>
         <div class="artist-card-country">
           <span class="artist-card-flag">${country.flag}</span>
@@ -1637,19 +1637,20 @@ updateCartUI();
 let scOpen = false;
 let scLoaded = false;
 
+function loadSC(){
+  if(!scLoaded){
+    const iframe = document.getElementById('scIframe');
+    iframe.src = iframe.getAttribute('data-src').replace('auto_play=false','auto_play=true');
+    scLoaded = true;
+  }
+}
+
 function toggleSC(){
   const panel = document.getElementById('scPanel');
   const arrow = document.getElementById('scArrow');
-  const iframe = document.getElementById('scIframe');
-
   scOpen = !scOpen;
-
   if(scOpen){
-    // Carga el iframe solo la primera vez que se abre
-    if(!scLoaded){
-      iframe.src = iframe.getAttribute('data-src');
-      scLoaded = true;
-    }
+    loadSC();
     panel.classList.add('open');
     arrow.textContent = '◀';
   } else {
@@ -1657,6 +1658,32 @@ function toggleSC(){
     arrow.textContent = '▶';
   }
 }
+
+// Abre y reproduce al primer clic/toque en cualquier parte
+function autoOpenSC(){
+  if(!scLoaded){
+    loadSC();
+    // Abre el panel brevemente para que el navegador permita el autoplay,
+    // luego lo cierra después de 3s si el usuario no interactuó con él
+    const panel = document.getElementById('scPanel');
+    const arrow = document.getElementById('scArrow');
+    panel.classList.add('open');
+    arrow.textContent = '◀';
+    scOpen = true;
+    setTimeout(()=>{
+      if(scOpen && !panel.matches(':hover')){
+        panel.classList.remove('open');
+        arrow.textContent = '▶';
+        scOpen = false;
+      }
+    }, 3000);
+  }
+  document.removeEventListener('click', autoOpenSC);
+  document.removeEventListener('touchstart', autoOpenSC);
+}
+
+document.addEventListener('click', autoOpenSC);
+document.addEventListener('touchstart', autoOpenSC);
 </script>
 
 </body>
